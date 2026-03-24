@@ -1,0 +1,3523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+<title>Yellow Circle</title>
+
+<!-- PWA / Home Screen support -->
+<meta name="application-name" content="Yellow Circle"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="apple-mobile-web-app-title" content="Yellow Circle"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#f9f0f4"/>
+<meta name="description" content="Yellow Circle — A place where we hold each other accountable to grow our business together."/>
+
+<!-- Open Graph (looks good when shared on WhatsApp/social) -->
+<meta property="og:title" content="Yellow Circle Community"/>
+<meta property="og:description" content="Join our accountability community for creative service providers."/>
+<meta property="og:type" content="website"/>
+
+<!-- Inline SVG favicon (the target logo) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'><circle cx='22' cy='22' r='20' fill='%23f5dce8'/><circle cx='22' cy='22' r='20' fill='none' stroke='%23c9718e' stroke-width='2'/><circle cx='22' cy='22' r='13' fill='%23f0b8cc'/><circle cx='22' cy='22' r='13' fill='none' stroke='%23a84f6a' stroke-width='2'/><circle cx='22' cy='22' r='7.5' fill='%23fce8f2'/><circle cx='22' cy='22' r='7.5' fill='none' stroke='%23c9718e' stroke-width='1.6'/><circle cx='22' cy='22' r='4.5' fill='%23F5C518' stroke='%23c8940a' stroke-width='1'/></svg>"/>
+
+<!-- Apple touch icon (inline SVG as data URI) -->
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'><rect width='44' height='44' fill='%23f9f0f4'/><circle cx='22' cy='22' r='20' fill='%23f5dce8'/><circle cx='22' cy='22' r='20' fill='none' stroke='%23c9718e' stroke-width='2'/><circle cx='22' cy='22' r='13' fill='%23f0b8cc'/><circle cx='22' cy='22' r='7.5' fill='%23fce8f2'/><circle cx='22' cy='22' r='4.5' fill='%23F5C518'/></svg>"/>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pink:#f9f0f4;--pink-mid:#f2dde8;--pink-deep:#e8c8d8;
+  --rose:#c9718e;--rose-dark:#a84f6a;--rose-darker:#8a3a54;--rose-light:#f0b8cc;
+  --plum:#3d2030;--plum-mid:#5c3348;--plum-soft:#8a566b;
+  --text-head:#2e1420;--text-body:#4a2a38;--text-muted:#9a6e7e;--text-faint:#c4a0af;
+  --white:#fffafc;--border:#ead4df;--border-soft:#f0e2ea;
+  --radius:14px;--sidebar:260px;--shadow:0 2px 16px rgba(180,100,130,0.10);
+}
+html,body{height:100%;font-family:'Nunito',sans-serif;background:var(--pink);color:var(--text-body);overflow-x:hidden}
+#app{display:flex;min-height:100vh}
+
+/* ── SIDEBAR ROLE SWITCHER ── */
+.sidebar-role-switcher{padding:10px 16px;border-top:1px solid var(--border-soft);background:var(--pink)}
+.srs-label{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--text-faint);text-transform:uppercase;margin-bottom:7px}
+.srs-btns{display:flex;gap:5px}
+.srs-btn{flex:1;padding:7px 0;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid var(--border);background:var(--white);color:var(--text-muted);font-family:'Nunito',sans-serif;transition:all .15s}
+.srs-btn.active{background:var(--rose-dark);color:white;border-color:var(--rose-dark)}
+.srs-btn:hover:not(.active){background:var(--pink-mid)}
+
+/* ── LANDING PAGE ── */
+#landing{
+  position:fixed;inset:0;z-index:500;display:flex;
+  background:var(--pink);overflow-y:auto;
+}
+#landing.hidden{display:none}
+
+/* Left branding panel */
+.landing-left{
+  width:52%;min-height:100vh;
+  background:linear-gradient(160deg,#3d2030 0%,#5c3348 50%,#8a3a54 100%);
+  display:flex;flex-direction:column;padding:44px 48px;
+  position:relative;overflow:hidden;flex-shrink:0;
+}
+.landing-left::before{
+  content:'';position:absolute;width:420px;height:420px;border-radius:50%;
+  background:radial-gradient(circle,rgba(245,197,24,.12) 0%,transparent 70%);
+  top:-100px;right:-80px;pointer-events:none;
+}
+.landing-left::after{
+  content:'';position:absolute;width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(240,184,204,.1) 0%,transparent 70%);
+  bottom:-60px;left:-60px;pointer-events:none;
+}
+.landing-brand{display:flex;align-items:center;gap:12px;margin-bottom:52px;position:relative;z-index:1}
+.landing-logo-svg{width:44px;height:44px;filter:drop-shadow(0 4px 12px rgba(245,197,24,.3))}
+.landing-brand-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20px;color:rgba(255,255,255,.92)}
+
+.landing-left-body{flex:1;position:relative;z-index:1}
+.landing-h1{
+  font-family:'Cormorant Garamond',serif;font-weight:600;
+  font-size:clamp(40px,5vw,58px);color:white;
+  line-height:1.1;margin-bottom:18px;letter-spacing:-.02em;
+}
+.landing-tagline{
+  font-size:clamp(14px,1.6vw,17px);color:rgba(255,255,255,.7);
+  line-height:1.75;max-width:380px;margin-bottom:44px;font-weight:400;
+}
+.landing-features{display:flex;flex-direction:column;gap:22px}
+.lf-item{display:flex;align-items:flex-start;gap:14px}
+.lf-icon{
+  width:40px;height:40px;border-radius:10px;flex-shrink:0;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.lf-title{font-size:14px;font-weight:700;color:white;margin-bottom:3px}
+.lf-sub{font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.55}
+.landing-left-quote{
+  position:relative;z-index:1;margin-top:44px;
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:16px;color:rgba(255,255,255,.45);
+}
+
+/* Right form panel */
+.landing-right{
+  flex:1;min-height:100vh;display:flex;align-items:center;
+  justify-content:center;padding:40px 32px;background:var(--pink);
+}
+.join-card{
+  background:var(--white);border:1px solid var(--border);border-radius:20px;
+  padding:36px 32px;width:100%;max-width:420px;
+  box-shadow:0 8px 40px rgba(168,79,106,.1);
+}
+.join-card-eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rose);margin-bottom:8px}
+.join-card-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:26px;color:var(--text-head);margin-bottom:5px}
+.join-card-sub{font-size:13px;color:var(--text-muted);margin-bottom:24px}
+.join-field{margin-bottom:14px}
+.join-name-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.join-label{display:block;font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:6px;letter-spacing:.02em}
+.join-input{
+  width:100%;background:var(--pink);border:1px solid var(--border-soft);border-radius:10px;
+  padding:11px 13px;font-family:'Nunito',sans-serif;font-size:14px;color:var(--text-body);
+  outline:none;transition:border-color .15s;
+}
+.join-input:focus{border-color:var(--rose);background:var(--white)}
+.join-input::placeholder{color:var(--text-faint)}
+.join-select{
+  width:100%;background:var(--pink);border:1px solid var(--border-soft);border-radius:10px;
+  padding:11px 13px;font-family:'Nunito',sans-serif;font-size:14px;color:var(--text-body);
+  outline:none;cursor:pointer;
+}
+.join-select:focus{border-color:var(--rose)}
+.join-error{font-size:12px;color:#b3476a;font-weight:600;margin-bottom:10px}
+.btn-join{
+  width:100%;padding:13px;border-radius:12px;background:var(--rose-darker);color:white;
+  font-family:'Nunito',sans-serif;font-weight:700;font-size:15px;border:none;
+  cursor:pointer;transition:all .18s;margin-top:8px;
+  box-shadow:0 4px 16px rgba(138,58,84,.3);
+}
+.btn-join:hover{background:var(--plum-mid);transform:translateY(-1px)}
+.join-fine{font-size:11.5px;color:var(--text-faint);text-align:center;margin-top:14px;line-height:1.6}
+
+/* Landing responsive */
+@media(max-width:820px){
+  #landing{flex-direction:column}
+  .landing-left{width:100%;min-height:auto;padding:32px 24px 36px}
+  .landing-h1{font-size:36px}
+  .landing-left-quote{display:none}
+  .landing-features{gap:16px}
+  .landing-right{padding:28px 20px 40px}
+  .join-card{padding:26px 22px}
+  .landing-brand{margin-bottom:28px}
+}
+@media(max-width:480px){
+  .landing-h1{font-size:30px}
+  .landing-left{padding:24px 18px 28px}
+  .landing-right{padding:20px 14px 36px}
+  .join-name-row{grid-template-columns:1fr}
+  .join-card{padding:22px 18px;border-radius:16px}
+}
+
+/* ── SIDEBAR ── */
+#sidebar{width:var(--sidebar);min-width:var(--sidebar);height:100vh;position:sticky;top:0;background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;z-index:100;box-shadow:2px 0 20px rgba(180,100,130,0.07)}
+.logo{padding:22px 20px 18px;border-bottom:1px solid var(--border-soft);display:flex;align-items:center;gap:10px}
+.logo-svg{flex-shrink:0;width:40px;height:40px}
+.logo-text{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:18px;color:var(--text-head);line-height:1.1}
+.logo-text span{display:block;font-size:11px;font-weight:400;color:var(--text-muted);font-family:'Nunito',sans-serif;margin-top:1px}
+nav{padding:16px 12px;flex:1}
+.nav-label{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--text-faint);text-transform:uppercase;padding:0 8px;margin:16px 0 6px}
+.nav-label:first-child{margin-top:0}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;cursor:pointer;color:var(--text-muted);font-size:13.5px;font-weight:500;transition:all .18s;margin-bottom:2px;border:1px solid transparent}
+.nav-item:hover{background:var(--pink);color:var(--plum-mid)}
+.nav-item.active{background:var(--pink-mid);color:var(--rose-dark);border-color:var(--border)}
+.nav-item svg{width:15px;height:15px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:2}
+.nav-item.admin-only{border-top:none}
+.nav-admin-divider{margin:10px 8px 6px;border-top:1px dashed var(--border)}
+.nav-item.admin-link.active{background:#f5e6ed;color:var(--plum);border-color:#dbb8c8}
+.nav-badge{margin-left:auto;background:var(--rose-dark);color:white;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px}
+.sidebar-footer{padding:14px 18px;border-top:1px solid var(--border-soft);display:flex;align-items:center;gap:10px}
+.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--rose-light),var(--rose));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:14px;color:white;flex-shrink:0}
+.user-name{font-size:13px;font-weight:700;color:var(--text-head)}
+.user-sub{font-size:11px;color:var(--text-faint);font-style:italic}
+.host-chip{display:inline-block;background:var(--rose-dark);color:white;font-size:10px;font-weight:700;padding:1px 8px;border-radius:8px;margin-top:2px}
+
+/* ── MAIN ── */
+#main{flex:1;min-width:0;display:flex;flex-direction:column}
+.topbar{height:56px;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 28px;gap:14px;background:rgba(255,250,252,0.94);backdrop-filter:blur(8px);position:sticky;top:0;z-index:50}
+.topbar-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:21px;color:var(--text-head);letter-spacing:-.01em}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:9px}
+.topbar-badge{background:var(--pink-mid);color:var(--rose-dark);border:1px solid var(--border);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.topbar-admin-badge{background:#f0e0e8;color:var(--plum);border:1px solid #dbb8c8;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
+.icon-btn{width:34px;height:34px;border-radius:50%;background:var(--pink);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s}
+.icon-btn:hover{background:var(--pink-mid)}
+.icon-btn svg{width:15px;height:15px;stroke:var(--rose-dark);fill:none;stroke-width:1.8}
+
+/* ── PAGES ── */
+#content-area{flex:1;padding:26px 28px;overflow-y:auto}
+.page{display:none;animation:fadeUp .22s ease}
+.page.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.section-intro{margin-bottom:22px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.section-intro-text .section-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:28px;color:var(--text-head);margin-bottom:3px;letter-spacing:-.02em}
+.section-intro-text .section-sub{font-size:13px;color:var(--text-muted)}
+
+/* ── WELCOME ── */
+.welcome-banner{background:linear-gradient(135deg,#fce4ef,#f9d0e3,#fce9f1);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;margin-bottom:20px;position:relative;overflow:hidden}
+.welcome-banner::after{content:'🌸';position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:44px;opacity:.28}
+.welcome-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;color:var(--text-head);margin-bottom:3px}
+.welcome-sub{font-size:13px;color:var(--plum-soft)}
+
+/* ── COMPOSE ── */
+.compose-box{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:20px;box-shadow:var(--shadow)}
+.compose-row{display:flex;gap:11px;align-items:flex-start}
+.compose-right{flex:1;display:flex;flex-direction:column;gap:9px}
+textarea{width:100%;background:var(--pink);border:1px solid var(--border-soft);border-radius:9px;color:var(--text-body);font-family:'Nunito',sans-serif;font-size:14px;padding:11px 13px;resize:none;outline:none;min-height:76px;transition:border-color .15s;line-height:1.6}
+textarea:focus{border-color:var(--rose)}
+textarea::placeholder{color:var(--text-faint)}
+.compose-footer{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.tag-pill{padding:5px 12px;border-radius:20px;font-size:12px;cursor:pointer;font-weight:600;background:var(--pink);border:1px solid var(--border);color:var(--text-muted);transition:all .15s}
+.tag-pill.selected,.tag-pill:hover{background:var(--rose-darker);color:white;border-color:var(--rose-darker)}
+.btn-post{margin-left:auto;padding:8px 20px;border-radius:20px;background:var(--rose-darker);color:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;border:none;cursor:pointer;transition:all .18s;box-shadow:0 3px 12px rgba(138,58,84,.28)}
+.btn-post:hover{background:var(--plum-mid);transform:translateY(-1px)}
+
+/* ── POSTS ── */
+.post{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-bottom:13px;box-shadow:var(--shadow);transition:box-shadow .18s}
+.post:hover{box-shadow:0 4px 22px rgba(180,100,130,.13)}
+.post-header{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.post-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:14px;color:white;flex-shrink:0}
+.post-meta{flex:1}
+.post-author{font-size:13.5px;font-weight:700;color:var(--text-head)}
+.post-time{font-size:11px;color:var(--text-faint)}
+.post-type-badge{padding:3px 9px;border-radius:11px;font-size:11px;font-weight:700;flex-shrink:0}
+.badge-update{background:#fde8ef;color:#b3476a}.badge-win{background:#e8f7e8;color:#3a7a3a}
+.badge-question{background:#e8f0ff;color:#3a5ab3}.badge-general{background:var(--pink-mid);color:var(--rose-dark)}
+.post-text{font-size:14px;line-height:1.75;color:var(--text-body);margin-bottom:12px}
+.post-actions{display:flex;align-items:center;gap:16px;padding-top:11px;border-top:1px solid var(--border-soft)}
+.action-btn{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--text-muted);cursor:pointer;transition:color .15s;font-weight:500;background:none;border:none;font-family:'Nunito',sans-serif}
+.action-btn:hover,.action-btn.liked{color:var(--rose-dark)}
+.action-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;transition:transform .15s}
+.action-btn.liked svg{fill:var(--rose-light)}
+.comments{margin-top:13px;padding-top:13px;border-top:1px solid var(--border-soft)}
+.comment{display:flex;gap:9px;margin-bottom:9px;align-items:flex-start}
+.comment-avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;flex-shrink:0}
+.comment-bubble{background:var(--pink);border-radius:0 9px 9px 9px;padding:8px 12px;flex:1}
+.comment-name{font-size:11.5px;font-weight:700;color:var(--text-head);margin-bottom:2px}
+.comment-text{font-size:13px;color:var(--text-body);line-height:1.5}
+.comment-input{display:flex;gap:7px;margin-top:9px;align-items:center}
+.comment-input input{flex:1;background:var(--pink);border:1px solid var(--border-soft);border-radius:18px;padding:8px 13px;font-family:'Nunito',sans-serif;font-size:13px;color:var(--text-body);outline:none}
+.comment-input input::placeholder{color:var(--text-faint)}
+.comment-input input:focus{border-color:var(--rose-light)}
+.btn-comment{padding:7px 14px;border-radius:18px;background:var(--rose-darker);border:none;color:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:all .15s}
+.btn-comment:hover{background:var(--plum-mid)}
+
+/* ── PODS ── */
+.btn-create-pod-main{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:12px;background:var(--rose-darker);color:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;border:none;cursor:pointer;transition:all .18s;box-shadow:0 4px 14px rgba(138,58,84,.28);flex-shrink:0}
+.btn-create-pod-main:hover{background:var(--plum-mid);transform:translateY(-2px);box-shadow:0 6px 18px rgba(92,51,72,.32)}
+.pods-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:14px}
+.pod-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);transition:all .2s}
+.pod-card:hover{transform:translateY(-3px);box-shadow:0 8px 26px rgba(180,100,130,.14)}
+.pod-top{display:flex;align-items:center;gap:11px;margin-bottom:13px}
+.pod-icon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0}
+.pod-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:17px;color:var(--text-head)}
+.pod-desc{font-size:11.5px;color:var(--text-muted)}
+.pod-members-row{display:flex;align-items:center;margin-bottom:13px}
+.pod-av{width:28px;height:28px;border-radius:50%;border:2px solid var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;margin-left:-5px;flex-shrink:0}
+.pod-av:first-child{margin-left:0}
+.pod-member-names{font-size:11.5px;color:var(--text-muted);margin-left:9px}
+.pod-footer{display:flex;gap:7px}
+.btn-chat{flex:1;padding:8px;border-radius:9px;background:var(--pink);border:1px solid var(--border);color:var(--rose-dark);font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:5px}
+.btn-chat:hover{background:var(--pink-mid)}
+.btn-chat svg{width:12px;height:12px;stroke:var(--rose-dark);fill:none;stroke-width:2}
+.btn-meet{flex:1;padding:8px;border-radius:9px;background:var(--rose-dark);border:none;color:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:5px;box-shadow:0 3px 9px rgba(168,79,106,.3)}
+.btn-meet:hover{background:var(--plum-mid);transform:translateY(-1px)}
+.btn-meet svg{width:12px;height:12px;stroke:white;fill:none;stroke-width:2}
+.empty-pods{text-align:center;padding:44px 20px;color:var(--text-faint);font-size:14px}
+.empty-pods span{display:block;font-size:36px;margin-bottom:10px}
+
+/* ── UPDATES ── */
+.updates-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.update-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:all .2s;cursor:pointer}
+.update-card:hover{transform:translateY(-3px);box-shadow:0 8px 26px rgba(180,100,130,.14)}
+.update-thumb{height:120px;display:flex;align-items:center;justify-content:center;font-size:42px;position:relative}
+.update-play{position:absolute;width:44px;height:44px;border-radius:50%;background:rgba(255,250,252,.92);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(60,20,40,.18)}
+.update-play svg{width:16px;height:16px;fill:var(--rose-dark);margin-left:2px}
+.update-body{padding:13px 15px}
+.update-tag{font-size:10px;font-weight:700;color:var(--rose-dark);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.update-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:16px;color:var(--text-head);line-height:1.3;margin-bottom:5px}
+.update-date{font-size:11.5px;color:var(--text-faint)}
+
+/* ── Q&A ── */
+.qa-compose{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:18px;box-shadow:var(--shadow)}
+.qa-compose label{display:block;font-size:12.5px;font-weight:700;color:var(--text-muted);margin-bottom:7px}
+.qa-item{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-bottom:12px;box-shadow:var(--shadow)}
+.qa-question{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;color:var(--text-head);margin-bottom:4px;line-height:1.3}
+.qa-asker{font-size:11.5px;color:var(--text-faint);margin-bottom:12px}
+.qa-answer{background:var(--pink);border-left:3px solid var(--rose-dark);border-radius:0 9px 9px 0;padding:12px 15px}
+.qa-answer-label{font-size:10.5px;font-weight:700;color:var(--rose-dark);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.qa-answer-text{font-size:13.5px;color:var(--text-body);line-height:1.7}
+.qa-unanswered{background:var(--pink-mid);border:1px dashed var(--border);border-radius:9px;padding:10px 13px;display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text-muted)}
+.qa-answer-form{margin-top:10px}
+.qa-answer-form textarea{min-height:58px;font-size:13px}
+.btn-answer{margin-top:8px;padding:7px 18px;border-radius:18px;background:var(--rose-darker);color:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:12.5px;border:none;cursor:pointer;transition:all .15s}
+.btn-answer:hover{background:var(--plum-mid)}
+
+/* ── ADMIN ── */
+.admin-lock{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:380px;text-align:center;gap:12px}
+.admin-lock .lock-icon{font-size:44px}
+.admin-lock h2{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:26px;color:var(--text-head)}
+.admin-lock p{font-size:13.5px;color:var(--text-muted);max-width:320px}
+.pin-row{display:flex;gap:10px;margin-top:6px}
+.pin-dot{width:50px;height:56px;border-radius:12px;border:2px solid var(--border);background:var(--white);font-size:22px;text-align:center;outline:none;color:var(--text-head);font-family:'Nunito',sans-serif;transition:border-color .15s}
+.pin-dot:focus{border-color:var(--rose-dark)}
+.btn-unlock{padding:10px 30px;border-radius:20px;background:var(--rose-darker);color:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:14px;border:none;cursor:pointer;transition:all .15s;margin-top:4px;box-shadow:0 4px 14px rgba(138,58,84,.3)}
+.btn-unlock:hover{background:var(--plum-mid)}
+.pin-error{font-size:12.5px;color:#b3476a;font-weight:600;opacity:0;transition:opacity .2s}
+.pin-error.show{opacity:1}
+.admin-panel{max-width:820px}
+.admin-section{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:18px;box-shadow:var(--shadow)}
+.admin-section-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20px;color:var(--text-head);margin-bottom:3px}
+.admin-section-sub{font-size:12.5px;color:var(--text-muted);margin-bottom:16px}
+.input-row{display:flex;gap:9px;align-items:flex-end;flex-wrap:wrap}
+.input-group{display:flex;flex-direction:column;gap:5px;flex:1;min-width:120px}
+.input-group label{font-size:11.5px;font-weight:700;color:var(--text-muted)}
+.input-group input{background:var(--pink);border:1px solid var(--border-soft);border-radius:8px;padding:9px 12px;font-family:'Nunito',sans-serif;font-size:13.5px;color:var(--text-body);outline:none;width:100%}
+.input-group input:focus{border-color:var(--rose-light)}
+.input-group input::placeholder{color:var(--text-faint)}
+.btn-admin{padding:9px 20px;border-radius:9px;background:var(--pink-mid);border:1px solid var(--border);color:var(--rose-dark);font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:all .15s;white-space:nowrap;align-self:flex-end}
+.btn-admin.rose{background:var(--rose-darker);color:white;border:none;box-shadow:0 3px 10px rgba(138,58,84,.25)}
+.btn-admin:hover{background:var(--plum-mid);color:white;border-color:transparent}
+.admin-pods-list{display:flex;flex-direction:column;gap:12px}
+.admin-pod-row{background:var(--pink);border:1px solid var(--border);border-radius:11px;padding:14px 16px}
+.admin-pod-header{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.admin-pod-icon{font-size:20px}
+.admin-pod-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:16px;color:var(--text-head);flex:1}
+.btn-sm{padding:5px 12px;border-radius:8px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;cursor:pointer;background:var(--pink-mid);border:1px solid var(--border);color:var(--text-muted);transition:all .15s}
+.btn-sm.danger{background:#fde8ef;color:#b3476a;border-color:#f5c0cd}
+.btn-sm.danger:hover{background:#b3476a;color:white;border-color:#b3476a}
+.admin-members-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.member-tag{display:inline-flex;align-items:center;gap:5px;background:var(--white);border:1px solid var(--border);border-radius:18px;padding:4px 9px 4px 5px;font-size:12px;color:var(--text-body)}
+.host-tag{border-color:var(--rose-light);background:#fef0f5}
+.m-av{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:white;flex-shrink:0}
+.m-name{font-weight:600;color:var(--text-head)}
+.m-remove{cursor:pointer;color:var(--text-faint);font-size:14px;margin-left:3px;line-height:1;transition:color .12s}
+.m-remove:hover{color:#b3476a}
+.add-member-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.add-member-row input{flex:1;min-width:100px;background:var(--white);border:1px solid var(--border-soft);border-radius:8px;padding:7px 11px;font-family:'Nunito',sans-serif;font-size:13px;color:var(--text-body);outline:none}
+.add-member-row input:focus{border-color:var(--rose-light)}
+.members-table{width:100%;border-collapse:collapse}
+.members-table th{text-align:left;font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--text-faint);text-transform:uppercase;padding:9px 13px;border-bottom:1px solid var(--border)}
+.members-table td{padding:10px 13px;border-bottom:1px solid var(--border-soft);font-size:13px;color:var(--text-body);vertical-align:middle}
+.members-table tr:last-child td{border-bottom:none}
+.members-table tr:hover td{background:var(--pink)}
+.pod-chip{display:inline-block;padding:2px 9px;border-radius:18px;font-size:11px;font-weight:600;background:var(--pink-mid);color:var(--rose-dark);border:1px solid var(--border)}
+
+/* ── MODAL (chat) ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(60,20,40,.32);backdrop-filter:blur(4px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--white);border-radius:18px;width:500px;max-width:95vw;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(60,20,40,.24);transform:translateY(14px);transition:transform .2s}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-header{padding:16px 18px;border-bottom:1px solid var(--border-soft);display:flex;align-items:center;gap:11px}
+.modal-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:19px;color:var(--text-head);flex:1}
+.modal-close{width:30px;height:30px;border-radius:50%;background:var(--pink);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.modal-close svg{width:13px;height:13px;stroke:var(--text-muted);fill:none;stroke-width:2}
+.modal-meet-btn{padding:6px 13px;border-radius:18px;background:var(--rose-dark);border:none;color:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:11.5px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:background .15s;flex-shrink:0}
+.modal-meet-btn:hover{background:var(--plum-mid)}
+.modal-meet-btn svg{width:12px;height:12px;stroke:white;fill:none;stroke-width:2}
+.chat-messages{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:11px;min-height:220px}
+.msg{display:flex;gap:8px;align-items:flex-start}
+.msg.me{flex-direction:row-reverse}
+.msg-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;flex-shrink:0}
+.msg-bubble{background:var(--pink);border-radius:4px 11px 11px 11px;padding:8px 12px;max-width:72%}
+.msg.me .msg-bubble{background:linear-gradient(135deg,#fdd6e6,#f4b8d0);border-radius:11px 4px 11px 11px}
+.msg-name{font-size:10.5px;font-weight:700;color:var(--text-head);margin-bottom:2px}
+.msg-text{font-size:13px;color:var(--text-body);line-height:1.5}
+.msg-time{font-size:9.5px;color:var(--text-faint);margin-top:2px}
+.chat-input-area{padding:12px 14px;border-top:1px solid var(--border-soft);display:flex;gap:7px}
+.chat-input-area input{flex:1;background:var(--pink);border:1px solid var(--border-soft);border-radius:18px;padding:9px 14px;font-family:'Nunito',sans-serif;font-size:13px;color:var(--text-body);outline:none}
+.chat-input-area input:focus{border-color:var(--rose-light)}
+.btn-send{width:36px;height:36px;border-radius:50%;background:var(--rose-dark);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(168,79,106,.28);transition:all .15s;flex-shrink:0}
+.btn-send:hover{background:var(--plum-mid);transform:scale(1.06)}
+.btn-send svg{width:14px;height:14px;stroke:white;fill:none;stroke-width:2}
+
+/* ── CREATE POD MODAL ── */
+.cp-label{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:6px;display:block}
+.cp-input{width:100%;background:var(--pink);border:1px solid var(--border-soft);border-radius:9px;padding:9px 12px;font-family:'Nunito',sans-serif;font-size:13.5px;color:var(--text-body);outline:none;transition:border-color .15s}
+.cp-input:focus{border-color:var(--rose)}
+.cp-input::placeholder{color:var(--text-faint)}
+.cp-emoji-row{display:flex;gap:5px;flex-wrap:wrap}
+.cp-emoji{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;border:2px solid transparent;background:var(--pink);transition:all .15s}
+.cp-emoji:hover{background:var(--pink-mid)}
+.cp-emoji.picked{border-color:var(--rose-dark);background:var(--pink-mid);transform:scale(1.1)}
+.cp-add-row{display:flex;gap:7px;align-items:center}
+.cp-select{flex:1;background:var(--pink);border:1px solid var(--border-soft);border-radius:9px;padding:9px 12px;font-family:'Nunito',sans-serif;font-size:13px;color:var(--text-body);outline:none;cursor:pointer}
+.cp-add-btn{padding:9px 15px;border-radius:9px;background:var(--rose-dark);color:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:12.5px;border:none;cursor:pointer;transition:background .15s;white-space:nowrap;flex-shrink:0}
+.cp-add-btn:hover{background:var(--plum-mid)}
+.cp-chip{display:inline-flex;align-items:center;gap:5px;background:var(--white);border:1px solid var(--border);border-radius:18px;padding:4px 9px 4px 5px;font-size:12px;color:var(--text-body)}
+.cp-chip .cav{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:white;flex-shrink:0}
+.cp-chip .crm{cursor:pointer;color:var(--text-faint);font-size:13px;margin-left:2px;transition:color .12s}
+.cp-chip .crm:hover{color:#b3476a}
+.btn-create-pod-submit{width:100%;padding:11px;border-radius:10px;background:var(--rose-darker);color:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:13.5px;border:none;cursor:pointer;transition:all .18s;box-shadow:0 3px 12px rgba(138,58,84,.28)}
+.btn-create-pod-submit:hover{background:var(--plum-mid);transform:translateY(-1px)}
+
+/* ── ADMIN AUTH SCREENS ── */
+.admin-auth-screen{display:flex;align-items:center;justify-content:center;min-height:70vh;padding:20px}
+.auth-card{background:var(--white);border:1px solid var(--border);border-radius:18px;padding:36px 32px;width:100%;max-width:420px;box-shadow:var(--shadow);text-align:center}
+.auth-icon{font-size:40px;margin-bottom:14px}
+.auth-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:24px;color:var(--text-head);margin-bottom:6px}
+.auth-sub{font-size:13px;color:var(--text-muted);margin-bottom:22px;line-height:1.6}
+.auth-field{margin-bottom:14px;text-align:left}
+.auth-label{display:block;font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:6px;letter-spacing:.02em}
+.auth-input-wrap{position:relative}
+.auth-input{width:100%;background:var(--pink);border:1px solid var(--border-soft);border-radius:10px;padding:11px 40px 11px 13px;font-family:'Nunito',sans-serif;font-size:14px;color:var(--text-body);outline:none;transition:border-color .15s}
+.auth-input:focus{border-color:var(--rose);background:var(--white)}
+.auth-input::placeholder{color:var(--text-faint)}
+.pw-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:14px;opacity:.6;user-select:none}
+.pw-eye:hover{opacity:1}
+.pw-strength-bar{height:4px;background:var(--border);border-radius:4px;margin-top:8px;overflow:hidden}
+#strength-fill{height:100%;width:0%;border-radius:4px;transition:all .3s}
+.pw-strength-label{font-size:11px;font-weight:700;margin-top:4px;text-align:right}
+.auth-error{font-size:12px;color:#b3476a;font-weight:600;margin-bottom:10px;min-height:16px;text-align:left}
+.auth-attempts{font-size:12px;color:var(--text-faint);margin-bottom:8px}
+.btn-auth{width:100%;padding:12px;border-radius:11px;background:var(--rose-darker);color:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:14px;border:none;cursor:pointer;transition:all .18s;box-shadow:0 3px 12px rgba(138,58,84,.28)}
+.btn-auth:hover{background:var(--plum-mid);transform:translateY(-1px)}
+.otp-row{display:flex;gap:8px;justify-content:center;margin:18px 0}
+.otp-box{width:44px;height:52px;border-radius:10px;border:2px solid var(--border);background:var(--pink);font-size:20px;text-align:center;outline:none;color:var(--text-head);font-family:'Nunito',sans-serif;font-weight:700;transition:border-color .15s}
+.otp-box:focus{border-color:var(--rose-dark);background:var(--white)}
+.auth-resend{font-size:12.5px;color:var(--text-muted);margin-top:14px}
+
+/* ── EDIT/DELETE on messages & comments ── */
+.msg-actions{display:flex;gap:4px;margin-top:5px;justify-content:flex-end;flex-wrap:wrap}
+.msg-act-btn{font-size:11px;font-weight:600;cursor:pointer;padding:3px 9px;border-radius:6px;border:1px solid rgba(255,255,255,.4);font-family:'Nunito',sans-serif;transition:all .15s;background:rgba(255,255,255,.3);color:var(--text-muted)}
+.msg-act-btn:hover{background:var(--white);color:var(--rose-dark)}
+.msg-act-btn.del-btn:hover{background:#fde8ef;color:#b3476a}
+.comment-actions{display:flex;gap:4px;margin-left:6px;flex-shrink:0;align-self:center}
+.comment-act-btn{font-size:12px;cursor:pointer;padding:3px 8px;border-radius:6px;border:1px solid var(--border);font-family:'Nunito',sans-serif;transition:all .15s;background:var(--pink);color:var(--text-faint)}
+.comment-act-btn:hover{background:var(--pink-mid);color:var(--rose-dark)}
+.comment-act-btn.del-btn:hover{background:#fde8ef;color:#b3476a}
+
+.chat-attach-btn{width:34px;height:34px;border-radius:50%;background:var(--pink);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;flex-shrink:0;color:var(--text-muted)}
+.chat-attach-btn:hover{background:var(--pink-mid);color:var(--rose-dark)}
+.msg-img{max-width:200px;border-radius:9px;display:block;cursor:pointer;margin-top:5px;border:1px solid var(--border)}
+.msg-doc{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;background:rgba(255,255,255,.6);border:1px solid var(--border);border-radius:8px;font-size:11.5px;color:var(--rose-dark);font-weight:600;cursor:pointer;margin-top:5px;text-decoration:none;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.msg-doc svg{width:13px;height:13px;stroke:var(--rose-dark);fill:none;stroke-width:2;flex-shrink:0}
+.chat-attach-preview-inner{display:flex;flex-wrap:wrap;gap:6px;padding:6px 0}
+.updates-upload-box{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:22px;box-shadow:var(--shadow)}
+.updates-upload-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:18px;color:var(--text-head);margin-bottom:14px}
+.updates-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.updates-form-full{margin-bottom:12px}
+.updates-label{display:block;font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:5px;letter-spacing:.02em}
+.updates-input{width:100%;background:var(--pink);border:1px solid var(--border-soft);border-radius:9px;padding:10px 13px;font-family:'Nunito',sans-serif;font-size:13.5px;color:var(--text-body);outline:none;transition:border-color .15s}
+.updates-input:focus{border-color:var(--rose)}
+.updates-input::placeholder{color:var(--text-faint)}
+.updates-type-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.utype-btn{padding:6px 14px;border-radius:20px;font-size:12.5px;font-weight:700;cursor:pointer;border:1px solid var(--border);background:var(--pink);color:var(--text-muted);font-family:'Nunito',sans-serif;transition:all .15s}
+.utype-btn.active{background:var(--rose-dark);color:white;border-color:var(--rose-dark)}
+.updates-file-zone{border:2px dashed var(--border);border-radius:11px;padding:22px;text-align:center;cursor:pointer;transition:all .18s;background:var(--pink);margin-bottom:12px}
+.updates-file-zone:hover,.updates-file-zone.dragover{border-color:var(--rose);background:var(--pink-mid)}
+.updates-file-zone svg{width:28px;height:28px;stroke:var(--text-faint);fill:none;stroke-width:1.5;margin-bottom:8px;display:block;margin-left:auto;margin-right:auto}
+.updates-file-zone p{font-size:13px;color:var(--text-muted);margin-bottom:4px;font-weight:500}
+.updates-file-zone span{font-size:11.5px;color:var(--text-faint)}
+.updates-file-preview{display:flex;align-items:center;gap:10px;background:var(--pink-mid);border:1px solid var(--border);border-radius:9px;padding:10px 13px;margin-bottom:12px}
+.updates-file-preview svg{width:20px;height:20px;stroke:var(--rose-dark);fill:none;stroke-width:1.8;flex-shrink:0}
+.updates-file-name{font-size:13px;color:var(--text-body);font-weight:500;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.updates-file-rm{background:none;border:none;cursor:pointer;color:var(--text-faint);font-size:16px;padding:0 4px;line-height:1;transition:color .12s}
+.updates-file-rm:hover{color:#b3476a}
+.btn-publish{padding:10px 24px;border-radius:11px;background:var(--rose-darker);color:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:13.5px;border:none;cursor:pointer;transition:all .18s;box-shadow:0 3px 12px rgba(138,58,84,.28)}
+.btn-publish:hover{background:var(--plum-mid);transform:translateY(-1px)}
+
+/* ── UPDATES LIST ── */
+.updates-list{display:flex;flex-direction:column;gap:14px}
+.update-item{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:box-shadow .18s}
+.update-item:hover{box-shadow:0 4px 22px rgba(180,100,130,.13)}
+.update-item-inner{display:flex;align-items:stretch}
+.update-thumb-col{width:130px;flex-shrink:0;position:relative;overflow:hidden;background:var(--pink-mid);display:flex;align-items:center;justify-content:center;min-height:100px}
+.update-thumb-col img{width:100%;height:100%;object-fit:cover}
+.update-thumb-emoji{font-size:36px}
+.update-play-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(60,20,40,.15);cursor:pointer;transition:background .15s}
+.update-play-overlay:hover{background:rgba(60,20,40,.3)}
+.update-play-circle{width:40px;height:40px;border-radius:50%;background:rgba(255,250,252,.93);display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(60,20,40,.2)}
+.update-play-circle svg{width:15px;height:15px;fill:var(--rose-dark);margin-left:2px}
+.update-body-col{flex:1;padding:16px 18px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.update-tag{font-size:10px;font-weight:700;color:var(--rose-dark);letter-spacing:.07em;text-transform:uppercase}
+.update-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:18px;color:var(--text-head);line-height:1.3}
+.update-desc{font-size:13px;color:var(--text-muted);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.update-meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:4px}
+.update-date{font-size:12px;color:var(--text-faint)}
+.update-file-link{font-size:12px;color:var(--rose-dark);font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+.update-file-link svg{width:12px;height:12px;stroke:var(--rose-dark);fill:none;stroke-width:2}
+.update-actions-col{display:flex;flex-direction:column;gap:5px;padding:12px;flex-shrink:0;justify-content:flex-start}
+.btn-update-act{padding:6px 12px;border-radius:8px;font-family:'Nunito',sans-serif;font-weight:700;font-size:11.5px;cursor:pointer;transition:all .15s;border:1px solid var(--border);background:var(--pink);color:var(--text-muted);white-space:nowrap}
+.btn-update-act:hover{background:var(--pink-mid);color:var(--rose-dark)}
+.btn-update-act.danger:hover{background:#fde8ef;color:#b3476a;border-color:#f5c0cd}
+@media(max-width:600px){
+  .update-item-inner{flex-direction:column}
+  .update-thumb-col{width:100%;height:130px}
+  .updates-form-grid{grid-template-columns:1fr}
+  .update-actions-col{flex-direction:row;padding:0 14px 12px}
+}
+
+/* ── POD MEMBERS PANEL ── */
+.modal-tabs{display:flex;border-bottom:1px solid var(--border-soft);background:var(--pink)}
+.modal-tab{flex:1;padding:10px;font-size:13px;font-weight:700;cursor:pointer;text-align:center;color:var(--text-muted);border:none;background:none;font-family:'Nunito',sans-serif;transition:all .15s;border-bottom:2px solid transparent}
+.modal-tab.active{color:var(--rose-dark);border-bottom-color:var(--rose-dark);background:var(--white)}
+.pod-members-panel{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:340px;overflow-y:auto}
+.pod-member-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--pink);border-radius:10px;border:1px solid var(--border-soft);cursor:pointer;transition:all .15s}
+.pod-member-row:hover{background:var(--pink-mid);border-color:var(--border)}
+.pod-member-row-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:14px;color:white;flex-shrink:0}
+.pod-member-row-info{flex:1}
+.pod-member-row-name{font-size:13.5px;font-weight:700;color:var(--text-head)}
+.pod-member-row-role{font-size:12px;color:var(--text-muted)}
+.pod-member-row-msg{padding:6px 14px;border-radius:8px;background:var(--rose-darker);color:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;border:none;cursor:pointer;white-space:nowrap;transition:background .15s;flex-shrink:0}
+.pod-member-row-msg:hover{background:var(--plum-mid)}
+.msg-av-clickable{cursor:pointer;transition:opacity .15s}
+.msg-av-clickable:hover{opacity:.75}
+.notif-bell-wrap{position:relative;flex-shrink:0}
+.notif-bell-wrap .icon-btn svg{stroke:var(--rose-dark)}
+.notif-bell-wrap.muted .icon-btn svg{stroke:var(--text-faint);opacity:.5}
+
+.notif-panel{
+  position:absolute;right:0;top:calc(100% + 10px);
+  width:300px;background:var(--white);border:1px solid var(--border);
+  border-radius:14px;box-shadow:0 8px 32px rgba(180,100,130,.18);
+  z-index:300;display:none;overflow:hidden;
+}
+.notif-panel.open{display:block;animation:fadeUp .18s ease}
+.notif-panel-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:17px;color:var(--text-head);padding:16px 16px 4px}
+.notif-panel-sub{font-size:12px;color:var(--text-muted);padding:0 16px 12px;border-bottom:1px solid var(--border-soft)}
+.notif-option{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border-soft)}
+.notif-option:last-of-type{border-bottom:none}
+.notif-option:hover{background:var(--pink)}
+.notif-option.active{background:var(--pink-mid)}
+.notif-opt-icon{font-size:20px;flex-shrink:0;margin-top:2px}
+.notif-opt-text{flex:1}
+.notif-opt-label{font-size:13.5px;font-weight:700;color:var(--text-head);margin-bottom:3px}
+.notif-opt-desc{font-size:11.5px;color:var(--text-muted);line-height:1.5}
+.notif-opt-check{font-size:15px;color:var(--rose-dark);font-weight:700;opacity:0;flex-shrink:0;margin-top:2px;transition:opacity .15s}
+.notif-option.active .notif-opt-check{opacity:1}
+.notif-status{font-size:12px;color:var(--text-muted);padding:10px 16px;text-align:center;background:var(--pink);display:none}
+.notif-status.show{display:block}
+@media(max-width:480px){.notif-panel{right:-50px;width:270px}}
+
+/* ── CUSTOM DIALOG (replaces prompt/confirm blocked in iframes) ── */
+#yc-dialog-overlay{position:fixed;inset:0;background:rgba(60,20,40,.4);z-index:800;display:none;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+#yc-dialog-overlay.open{display:flex}
+#yc-dialog{background:var(--white);border-radius:16px;padding:28px 24px;width:92%;max-width:400px;box-shadow:0 12px 40px rgba(60,20,40,.25)}
+#yc-dialog-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20px;color:var(--text-head);margin-bottom:8px}
+#yc-dialog-msg{font-size:13.5px;color:var(--text-muted);margin-bottom:16px;line-height:1.6}
+#yc-dialog-input{width:100%;background:var(--pink);border:1px solid var(--border);border-radius:9px;padding:10px 13px;font-family:'Nunito',sans-serif;font-size:14px;color:var(--text-body);outline:none;margin-bottom:16px;display:none;resize:vertical;min-height:80px}
+#yc-dialog-input:focus{border-color:var(--rose)}
+#yc-dialog-btns{display:flex;gap:8px;justify-content:flex-end}
+.yc-dialog-cancel{padding:9px 20px;border-radius:9px;background:var(--pink);border:1px solid var(--border);color:var(--text-muted);font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:all .15s}
+.yc-dialog-cancel:hover{background:var(--pink-mid)}
+.yc-dialog-ok{padding:9px 20px;border-radius:9px;background:var(--rose-darker);border:none;color:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:all .15s}
+.yc-dialog-ok:hover{background:var(--plum-mid)}
+.yc-dialog-ok.danger{background:#b3476a}
+.yc-dialog-ok.danger:hover{background:#8a2a48}
+.post-own-actions{display:flex;gap:4px;margin-left:4px;flex-shrink:0}
+.post-act-btn{background:none;border:1px solid var(--border);cursor:pointer;padding:4px 9px;border-radius:8px;font-size:13px;line-height:1;transition:all .15s;color:var(--text-faint)}
+.post-act-btn:hover{background:var(--pink-mid);border-color:var(--rose-light);color:var(--rose-dark)}
+.post-act-btn.danger:hover{background:#fde8ef;border-color:#f5c0cd;color:#b3476a}
+
+/* ── FILE UPLOAD ── */
+.upload-btn{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;background:var(--pink);border:1px solid var(--border);color:var(--text-muted);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;font-family:'Nunito',sans-serif}
+.upload-btn:hover{background:var(--pink-mid);color:var(--rose-dark)}
+.upload-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
+.file-previews{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.file-preview{position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.file-preview img{width:90px;height:70px;object-fit:cover;display:block}
+.file-preview-doc{width:90px;height:70px;background:var(--pink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px}
+.file-preview-doc svg{width:22px;height:22px;stroke:var(--rose-dark);fill:none;stroke-width:1.5}
+.file-preview-doc span{font-size:10px;color:var(--text-muted);text-align:center;word-break:break-all;line-height:1.3;max-width:76px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.file-preview-rm{position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:rgba(60,20,40,.65);color:white;border:none;cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center}
+.post-attachments{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.post-img{width:100%;max-height:320px;object-fit:cover;border-radius:10px;display:block;cursor:pointer;border:1px solid var(--border)}
+.post-img-thumb{width:90px;height:70px;object-fit:cover;border-radius:8px;cursor:pointer;border:1px solid var(--border)}
+.post-doc{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;background:var(--pink);border:1px solid var(--border);border-radius:9px;font-size:12.5px;color:var(--rose-dark);font-weight:600;cursor:pointer;text-decoration:none}
+.post-doc svg{width:14px;height:14px;stroke:var(--rose-dark);fill:none;stroke-width:2;flex-shrink:0}
+#lightbox{position:fixed;inset:0;background:rgba(30,10,20,.88);z-index:900;display:none;align-items:center;justify-content:center;cursor:pointer}
+#lightbox.open{display:flex}
+#lightbox img{max-width:92vw;max-height:88vh;border-radius:12px;object-fit:contain}
+
+/* ── PWA INSTALL BANNER ── */
+#install-banner{
+  position:fixed;bottom:0;left:0;right:0;z-index:998;
+  background:var(--white);border-top:1px solid var(--border);
+  padding:14px 20px 20px;
+  display:none;align-items:center;gap:14px;
+  box-shadow:0 -4px 20px rgba(180,100,130,.12);
+  padding-bottom:calc(20px + env(safe-area-inset-bottom));
+}
+#install-banner.show{display:flex}
+.install-banner-icon{width:44px;height:44px;border-radius:12px;background:var(--pink-mid);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.install-banner-text{flex:1}
+.install-banner-title{font-size:14px;font-weight:700;color:var(--text-head);margin-bottom:2px}
+.install-banner-sub{font-size:12px;color:var(--text-muted)}
+.btn-install{padding:9px 18px;border-radius:10px;background:var(--rose-darker);color:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;border:none;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.btn-install-dismiss{padding:9px;border-radius:10px;background:var(--pink);border:1px solid var(--border);color:var(--text-muted);font-family:'Nunito',sans-serif;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;flex-shrink:0}
+/* Safe area for notch phones */
+body{padding-bottom:env(safe-area-inset-bottom)}
+#sidebar{padding-bottom:env(safe-area-inset-bottom)}
+
+/* iOS instructions banner */
+#ios-banner{
+  position:fixed;bottom:0;left:0;right:0;z-index:998;
+  background:var(--plum);color:white;
+  padding:16px 20px calc(20px + env(safe-area-inset-bottom));
+  display:none;flex-direction:column;gap:8px;
+  box-shadow:0 -4px 20px rgba(60,20,40,.3);
+}
+#ios-banner.show{display:flex}
+.ios-banner-title{font-size:14px;font-weight:700}
+.ios-banner-steps{font-size:13px;color:rgba(255,255,255,.8);line-height:1.7}
+.ios-banner-close{align-self:flex-end;background:rgba(255,255,255,.15);border:none;color:white;padding:5px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Nunito',sans-serif}
+.win-post{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:box-shadow .18s}
+.win-post::before{content:'🏆';position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:52px;opacity:.07;pointer-events:none}
+.win-post:hover{box-shadow:0 4px 24px rgba(180,100,130,.14)}
+.win-banner{background:linear-gradient(135deg,#e8f7e8,#d0f0d0);border:1px solid #a8d8a8;border-radius:var(--radius);padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.win-banner-text{font-size:13px;color:#3a7a3a;font-weight:500}
+
+/* ── MEMBERS DIRECTORY ── */
+.dir-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:14px}
+.dir-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);transition:all .2s;display:flex;flex-direction:column}
+.dir-card:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(180,100,130,.13)}
+.dir-card-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.dir-av{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:18px;color:white;flex-shrink:0}
+.dir-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:17px;color:var(--text-head);line-height:1.2}
+.dir-role{font-size:12px;color:var(--text-muted)}
+.dir-location{font-size:12px;color:var(--text-faint);margin-bottom:8px}
+.dir-business{font-size:13px;color:var(--text-body);line-height:1.6;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;flex:1}
+.dir-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+.dir-tag{padding:3px 9px;border-radius:14px;background:var(--pink-mid);border:1px solid var(--border);font-size:11px;color:var(--rose-dark);font-weight:600}
+.dir-pod-badge{font-size:11px;color:var(--text-muted);margin-bottom:12px}
+.dir-actions{display:flex;gap:7px}
+.btn-dm{flex:1;padding:8px;border-radius:9px;background:var(--rose-darker);color:white;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;border:none;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:5px}
+.btn-dm:hover{background:var(--plum-mid)}
+.btn-dm svg{width:12px;height:12px;stroke:white;fill:none;stroke-width:2}
+.btn-dm-secondary{flex:1;padding:8px;border-radius:9px;background:var(--pink);border:1px solid var(--border);color:var(--rose-dark);font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:all .15s}
+.btn-dm-secondary:hover{background:var(--pink-mid)}
+
+/* ── MESSAGES PAGE ── */
+.msg-page-layout{display:flex;gap:0;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;min-height:500px;box-shadow:var(--shadow)}
+.msg-sidebar{width:260px;border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+.msg-sidebar-header{padding:14px 16px;border-bottom:1px solid var(--border-soft);font-family:'Cormorant Garamond',serif;font-weight:600;font-size:17px;color:var(--text-head)}
+.msg-thread-list{flex:1;overflow-y:auto}
+.msg-thread{padding:12px 14px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border-soft);display:flex;align-items:center;gap:10px}
+.msg-thread:hover{background:var(--pink)}
+.msg-thread.active{background:var(--pink-mid)}
+.msg-thread-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white;flex-shrink:0}
+.msg-thread-info{flex:1;min-width:0}
+.msg-thread-name{font-size:13px;font-weight:700;color:var(--text-head);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msg-thread-preview{font-size:11.5px;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msg-thread-unread{width:8px;height:8px;border-radius:50%;background:var(--rose-dark);flex-shrink:0}
+.msg-main{flex:1;display:flex;flex-direction:column}
+.msg-main-header{padding:13px 16px;border-bottom:1px solid var(--border-soft);display:flex;align-items:center;gap:10px}
+.msg-main-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:17px;color:var(--text-head)}
+.msg-main-role{font-size:12px;color:var(--text-muted)}
+.msg-main-msgs{flex:1;padding:16px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;min-height:300px;max-height:360px}
+.msg-main-input{padding:12px 14px;border-top:1px solid var(--border-soft);display:flex;gap:8px}
+.msg-main-input input{flex:1;background:var(--pink);border:1px solid var(--border-soft);border-radius:18px;padding:9px 14px;font-family:'Nunito',sans-serif;font-size:13px;color:var(--text-body);outline:none}
+.msg-main-input input:focus{border-color:var(--rose-light)}
+.msg-empty-chat{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;color:var(--text-faint);text-align:center}
+.msg-empty-chat span{font-size:40px;margin-bottom:10px;display:block}
+.msg-host-badge{font-size:10px;font-weight:700;background:var(--rose-dark);color:white;padding:1px 7px;border-radius:8px;margin-left:6px;vertical-align:middle}
+@media(max-width:600px){.msg-page-layout{flex-direction:column}.msg-sidebar{width:100%;min-height:160px;max-height:200px}.msg-main-msgs{min-height:200px}}
+
+/* ── INTRO MODAL ── */
+.intro-row{display:flex;flex-direction:column;gap:5px}
+.intro-label{font-size:12px;font-weight:700;color:var(--text-muted);letter-spacing:.02em}
+.intro-input{background:var(--pink);border:1px solid var(--border-soft);border-radius:9px;padding:10px 13px;font-family:'Nunito',sans-serif;font-size:14px;color:var(--text-body);outline:none;transition:border-color .15s;width:100%}
+.intro-input:focus,.intro-textarea:focus{border-color:var(--rose)}
+.intro-input::placeholder,.intro-textarea::placeholder{color:var(--text-faint)}
+.intro-textarea{background:var(--pink);border:1px solid var(--border-soft);border-radius:9px;padding:10px 13px;font-family:'Nunito',sans-serif;font-size:14px;color:var(--text-body);outline:none;transition:border-color .15s;width:100%;resize:none;line-height:1.6}
+.ptag{padding:6px 12px;border-radius:20px;font-size:12px;cursor:pointer;font-weight:600;background:var(--pink);border:1px solid var(--border);color:var(--text-muted);transition:all .15s;user-select:none;display:inline-block}
+.ptag.selected{background:var(--rose-dark);color:white;border-color:var(--rose-dark)}
+
+.toast{position:fixed;bottom:26px;right:26px;background:var(--plum);color:white;padding:11px 18px;border-radius:11px;font-size:13px;font-weight:500;box-shadow:0 8px 26px rgba(60,20,40,.28);opacity:0;transform:translateY(8px);transition:all .22s;z-index:999;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--rose-light);border-radius:4px}
+
+/* ── MOBILE HAMBURGER ── */
+.hamburger{display:none;width:38px;height:38px;border-radius:10px;background:var(--pink);border:1px solid var(--border);align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-right:4px}
+.hamburger svg{width:18px;height:18px;stroke:var(--rose-dark);fill:none;stroke-width:2}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(60,20,40,.32);z-index:99;backdrop-filter:blur(2px)}
+.sidebar-overlay.open{display:block}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .hamburger{display:flex}
+  #sidebar{
+    position:fixed;left:0;top:0;height:100vh;z-index:200;
+    transform:translateX(-100%);transition:transform .25s ease;
+    width:260px;min-width:260px;
+  }
+  #sidebar.open{transform:translateX(0)}
+  #main{width:100%}
+  .topbar{padding:0 14px;gap:10px}
+  .topbar-title{font-size:18px}
+  .topbar-badge{display:none}
+  #content-area{padding:18px 16px}
+  .pods-grid{grid-template-columns:1fr}
+  .updates-grid{grid-template-columns:1fr}
+  .welcome-banner::after{font-size:34px;right:14px}
+  .welcome-title{font-size:19px}
+  .admin-panel{max-width:100%}
+  .input-row{flex-direction:column}
+  .btn-admin{width:100%}
+  .pod-members-row{flex-wrap:wrap}
+  .pod-member-names{display:none}
+  .section-intro{flex-direction:column;align-items:flex-start}
+  .btn-create-pod-main{width:100%}
+  .modal{width:95vw!important;max-height:88vh}
+  .members-table th:nth-child(2),.members-table td:nth-child(2){display:none}
+  .add-member-row{flex-wrap:wrap}
+  .add-member-row input{min-width:calc(50% - 8px)}
+  .post{padding:14px}
+  .compose-box{padding:13px}
+  .pin-row{gap:8px}
+  .pin-dot{width:44px;height:52px;font-size:20px}
+  .qa-item{padding:14px 15px}
+  .admin-section{padding:16px}
+}
+@media(max-width:420px){
+  .topbar-title{font-size:16px}
+  #content-area{padding:14px 12px}
+  .pod-footer{flex-direction:column}
+  .btn-chat,.btn-meet{flex:none;width:100%}
+  .welcome-title{font-size:17px}
+  .section-title{font-size:24px}
+  .compose-footer{gap:5px}
+  .tag-pill{padding:4px 10px;font-size:11px}
+  .pin-dot{width:40px;height:48px}
+  .modal{border-radius:14px 14px 0 0;position:fixed;bottom:0;top:auto;max-height:90vh}
+  .modal-overlay{align-items:flex-end}
+  .join-name-row{grid-template-columns:1fr}
+  .join-card{padding:22px 18px;border-radius:16px}
+  .landing-headline{font-size:26px}
+}
+</style>
+</head>
+<body>
+
+<!-- ── LANDING / ONBOARDING PAGE ── -->
+<div id="landing">
+
+  <!-- Left: Branding panel -->
+  <div class="landing-left">
+    <div class="landing-brand">
+      <svg class="landing-logo-svg" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="22" cy="22" r="20" fill="#f5dce8"/>
+        <circle cx="22" cy="22" r="20" fill="none" stroke="#c9718e" stroke-width="1.8"/>
+        <circle cx="22" cy="22" r="13" fill="#f0b8cc"/>
+        <circle cx="22" cy="22" r="13" fill="none" stroke="#a84f6a" stroke-width="1.8"/>
+        <circle cx="22" cy="22" r="7.5" fill="#fce8f2"/>
+        <circle cx="22" cy="22" r="7.5" fill="none" stroke="#c9718e" stroke-width="1.6"/>
+        <circle cx="22" cy="22" r="4.5" fill="#F5C518" stroke="#c8940a" stroke-width="1"/>
+      </svg>
+      <span class="landing-brand-name">Yellow Circle</span>
+    </div>
+
+    <div class="landing-left-body">
+      <h1 class="landing-h1">Yellow<br/>Community</h1>
+      <p class="landing-tagline">A place where we hold each other accountable to grow our business together.</p>
+
+      <div class="landing-features">
+        <div class="lf-item">
+          <div class="lf-icon">🎯</div>
+          <div class="lf-text">
+            <div class="lf-title">4-Person Accountability Pods</div>
+            <div class="lf-sub">Your intimate circle for weekly check-ins, goals &amp; real talk</div>
+          </div>
+        </div>
+        <div class="lf-item">
+          <div class="lf-icon">💬</div>
+          <div class="lf-text">
+            <div class="lf-title">Community Feed</div>
+            <div class="lf-sub">Share wins, ask questions, celebrate each other every day</div>
+          </div>
+        </div>
+        <div class="lf-item">
+          <div class="lf-icon">📞</div>
+          <div class="lf-text">
+            <div class="lf-title">Group Video Calls</div>
+            <div class="lf-sub">Jump into your pod room anytime with one click</div>
+          </div>
+        </div>
+        <div class="lf-item">
+          <div class="lf-icon">🎬</div>
+          <div class="lf-text">
+            <div class="lf-title">Host Content &amp; Q&amp;A</div>
+            <div class="lf-sub">Exclusive videos, trainings and personal answers from your host</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="landing-left-quote">"Show up. Be seen. Grow together." 🌸</div>
+  </div>
+
+  <!-- Right: Join form -->
+  <div class="landing-right">
+    <div class="join-card">
+      <div class="join-card-eyebrow">Get started — it's free</div>
+      <div class="join-card-title">Join the community ✨</div>
+      <div class="join-card-sub">Takes 30 seconds. Fill in your details below.</div>
+
+      <div class="join-name-row">
+        <div class="join-field">
+          <label class="join-label">First name</label>
+          <input class="join-input" id="join-fname" placeholder="Luna" autocomplete="given-name"/>
+        </div>
+        <div class="join-field">
+          <label class="join-label">Last name</label>
+          <input class="join-input" id="join-lname" placeholder="Kim" autocomplete="family-name"/>
+        </div>
+      </div>
+
+      <div class="join-field">
+        <label class="join-label">Gmail address</label>
+        <input class="join-input" id="join-gmail" placeholder="you@gmail.com" type="email" autocomplete="email"/>
+      </div>
+
+      <div class="join-field">
+        <label class="join-label">What service do you offer?</label>
+        <select class="join-select" id="join-profession">
+          <option value="">— Choose your profession —</option>
+          <option>Graphic Designer</option>
+          <option>Social Media Manager</option>
+          <option>Content Writer</option>
+          <option>Brand Manager</option>
+          <option>Podcast Manager</option>
+          <option>Coach / Consultant</option>
+          <option>Copywriter</option>
+          <option>UX / UI Designer</option>
+          <option>Video Editor</option>
+          <option>Web Designer</option>
+          <option>Email Marketer</option>
+          <option>Virtual Assistant</option>
+          <option>Other Creative Service</option>
+        </select>
+      </div>
+
+      <div class="join-error" id="join-error">Please fill in all fields to continue.</div>
+      <div class="join-error" id="join-error-email" style="display:none">Please enter a valid Gmail address.</div>
+
+      <button class="btn-join" onclick="joinCommunity()">Join Yellow Circle →</button>
+      <div class="join-fine">By joining you agree to show up, support your pod members, and celebrate every win — big or small. 🌸</div>
+    </div>
+  </div>
+
+</div>
+
+<div id="app">
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside id="sidebar">
+  <div class="logo">
+    <svg class="logo-svg" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="22" cy="22" r="20" fill="#f5dce8"/>
+      <circle cx="22" cy="22" r="20" fill="none" stroke="#c9718e" stroke-width="1.8"/>
+      <circle cx="22" cy="22" r="13" fill="#f0b8cc"/>
+      <circle cx="22" cy="22" r="13" fill="none" stroke="#a84f6a" stroke-width="1.8"/>
+      <circle cx="22" cy="22" r="7.5" fill="#fce8f2"/>
+      <circle cx="22" cy="22" r="7.5" fill="none" stroke="#c9718e" stroke-width="1.6"/>
+      <circle cx="22" cy="22" r="4.5" fill="#F5C518" stroke="#c8940a" stroke-width="1"/>
+    </svg>
+    <div class="logo-text">Yellow Circle<span>Creative Community</span></div>
+  </div>
+
+  <nav id="sidebar-nav">
+    <!-- rendered by JS based on role -->
+  </nav>
+
+  <div class="sidebar-role-switcher" id="sidebar-role-switcher">
+    <div class="srs-label" id="srs-label">Preview as</div>
+    <div class="srs-btns" id="srs-btns">
+      <button class="srs-btn active" id="srs-host-btn" onclick="setRole('host',this)">Host</button>
+      <button class="srs-btn" id="srs-member-btn" onclick="setRole('member',this)">Member</button>
+    </div>
+  </div>
+
+  <div class="sidebar-footer" id="sidebar-footer">
+    <!-- rendered by JS -->
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main id="main">
+  <div class="topbar">
+    <div class="hamburger" id="hamburger" onclick="toggleSidebar()">
+      <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </div>
+    <div class="topbar-title" id="topbar-title">Community Feed</div>
+    <div class="topbar-right" id="topbar-right">
+      <div class="topbar-badge" id="topbar-badge">🌸 Host</div>
+    </div>
+
+    <!-- Bell lives here permanently — never re-rendered -->
+    <div class="notif-bell-wrap" id="notif-wrap">
+      <button class="icon-btn" id="notif-bell-btn" onclick="toggleNotifPanel()" title="Notifications">
+        <svg id="notif-bell-icon" viewBox="0 0 24 24" fill="none" stroke="var(--rose-dark)" stroke-width="1.8" stroke-linecap="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+      </button>
+      <div class="notif-panel" id="notif-panel">
+        <div class="notif-panel-title">Notifications</div>
+        <div class="notif-panel-sub">Choose how Yellow Circle notifies you.</div>
+        <div class="notif-option" id="notif-opt-enable" onclick="event.stopPropagation();enableNotifications()">
+          <div class="notif-opt-icon">🔔</div>
+          <div class="notif-opt-text">
+            <div class="notif-opt-label">Enable push notifications</div>
+            <div class="notif-opt-desc">Get notified on your phone or desktop for new messages, posts &amp; Q&amp;A answers</div>
+          </div>
+          <div class="notif-opt-check">✓</div>
+        </div>
+        <div class="notif-option" id="notif-opt-mute" onclick="event.stopPropagation();muteNotifications()">
+          <div class="notif-opt-icon">🔕</div>
+          <div class="notif-opt-text">
+            <div class="notif-opt-label">Mute all notifications</div>
+            <div class="notif-opt-desc">No pings, no banners — check in on your own time</div>
+          </div>
+          <div class="notif-opt-check">✓</div>
+        </div>
+        <div class="notif-status" id="notif-status"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-area">
+
+    <!-- FEED -->
+    <div class="page active" id="page-feed">
+      <div id="feed-welcome"></div>
+      <div id="host-compose"></div>
+      <div id="feed-posts"></div>
+    </div>
+
+    <!-- PODS -->
+    <div class="page" id="page-pods">
+      <div class="section-intro">
+        <div class="section-intro-text">
+          <div class="section-title">Accountability Pods 🌿</div>
+          <div class="section-sub" id="pods-sub">Your circles for real talk, real goals, real growth.</div>
+        </div>
+        <button class="btn-create-pod-main" id="btn-create-pod" onclick="openCreatePodModal()" style="display:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" style="width:13px;height:13px;flex-shrink:0"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Create Pod
+        </button>
+      </div>
+      <div class="pods-grid" id="pods-grid"></div>
+    </div>
+
+    <!-- WIN WALL -->
+    <div class="page" id="page-wins">
+      <div class="section-intro">
+        <div class="section-intro-text">
+          <div class="section-title">Win Wall 🏆</div>
+          <div class="section-sub">Every victory shared here. Big or small — it all counts.</div>
+        </div>
+      </div>
+      <div id="win-wall-posts"></div>
+    </div>
+
+    <!-- MEMBERS DIRECTORY -->
+    <div class="page" id="page-members">
+      <div class="section-intro">
+        <div class="section-intro-text">
+          <div class="section-title">Members Directory 🌸</div>
+          <div class="section-sub">Get to know your community. Click any member to send a private message.</div>
+        </div>
+      </div>
+      <div id="members-directory-grid"></div>
+    </div>
+
+    <!-- PRIVATE MESSAGES -->
+    <div class="page" id="page-dms">
+      <div class="section-intro">
+        <div class="section-intro-text">
+          <div class="section-title">Messages 💌</div>
+          <div class="section-sub">Private conversations with members and your host.</div>
+        </div>
+      </div>
+      <div class="msg-page-layout" id="msg-page-layout">
+        <div class="msg-sidebar">
+          <div class="msg-sidebar-header">Conversations</div>
+          <div class="msg-thread-list" id="msg-thread-list"></div>
+        </div>
+        <div class="msg-main" id="msg-main">
+          <div class="msg-empty-chat">
+            <span>💌</span>
+            Select a conversation to start messaging
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UPDATES -->
+    <div class="page" id="page-updates">
+      <div class="section-intro">
+        <div class="section-intro-text">
+          <div class="section-title">Updates &amp; Videos 🎬</div>
+          <div class="section-sub" id="updates-sub">Content from your host — watch at your own pace.</div>
+        </div>
+      </div>
+      <!-- Admin upload form (host only, rendered by JS) -->
+      <div id="updates-upload-area"></div>
+      <!-- Content grid -->
+      <div id="updates-grid"></div>
+    </div>
+
+    <!-- Q&A -->
+    <div class="page" id="page-qa">
+      <div class="section-intro">
+        <div class="section-intro-text">
+          <div class="section-title">Q &amp; A ✦</div>
+          <div class="section-sub" id="qa-sub">Ask anything. Your host answers personally.</div>
+        </div>
+      </div>
+      <div id="qa-ask-box"></div>
+      <div id="qa-list"></div>
+    </div>
+
+    <!-- ADMIN -->
+    <div class="page" id="page-admin">
+
+      <!-- STEP 1: First-time setup -->
+      <div id="admin-setup" class="admin-auth-screen" style="display:none">
+        <div class="auth-card">
+          <div class="auth-icon">🔐</div>
+          <div class="auth-title">Create your admin password</div>
+          <div class="auth-sub">You're setting this up for the first time. Choose a strong password — it's stored securely and never shown again.</div>
+          <div class="auth-field">
+            <label class="auth-label">Password</label>
+            <div class="auth-input-wrap">
+              <input type="password" id="setup-pw" class="auth-input" placeholder="Min 8 chars, 1 number, 1 special char" oninput="checkStrength()"/>
+              <span class="pw-eye" onclick="toggleEye('setup-pw',this)">👁</span>
+            </div>
+            <div class="pw-strength-bar"><div id="strength-fill"></div></div>
+            <div id="strength-label" class="pw-strength-label"></div>
+          </div>
+          <div class="auth-field">
+            <label class="auth-label">Confirm password</label>
+            <div class="auth-input-wrap">
+              <input type="password" id="setup-pw2" class="auth-input" placeholder="Re-enter password"/>
+              <span class="pw-eye" onclick="toggleEye('setup-pw2',this)">👁</span>
+            </div>
+          </div>
+          <div class="auth-field">
+            <label class="auth-label">Your email (for 2FA codes)</label>
+            <input type="email" id="setup-email" class="auth-input" placeholder="your@email.com"/>
+          </div>
+          <div class="auth-error" id="setup-error"></div>
+          <button class="btn-auth" onclick="saveAdminPassword()">Set Password &amp; Continue →</button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Login -->
+      <div id="admin-login" class="admin-auth-screen" style="display:none">
+        <div class="auth-card">
+          <div class="auth-icon">🔒</div>
+          <div class="auth-title">Admin Login</div>
+          <div class="auth-sub">Enter your password to access the admin panel.</div>
+          <div class="auth-field">
+            <label class="auth-label">Password</label>
+            <div class="auth-input-wrap">
+              <input type="password" id="login-pw" class="auth-input" placeholder="Your admin password" onkeydown="if(event.key==='Enter')attemptLogin()"/>
+              <span class="pw-eye" onclick="toggleEye('login-pw',this)">👁</span>
+            </div>
+          </div>
+          <div class="auth-error" id="login-error"></div>
+          <div class="auth-attempts" id="login-attempts"></div>
+          <button class="btn-auth" onclick="attemptLogin()">Login →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: 2FA OTP -->
+      <div id="admin-2fa" class="admin-auth-screen" style="display:none">
+        <div class="auth-card">
+          <div class="auth-icon">📱</div>
+          <div class="auth-title">Two-Factor Authentication</div>
+          <div class="auth-sub" id="tfa-sub">A 6-digit code has been sent to your email. Enter it below.</div>
+          <div class="otp-row">
+            <input class="otp-box" type="text" maxlength="1" id="o1" oninput="otpNext(this,'o2')" onkeydown="otpBack(event,this,'')"/>
+            <input class="otp-box" type="text" maxlength="1" id="o2" oninput="otpNext(this,'o3')" onkeydown="otpBack(event,this,'o1')"/>
+            <input class="otp-box" type="text" maxlength="1" id="o3" oninput="otpNext(this,'o4')" onkeydown="otpBack(event,this,'o2')"/>
+            <input class="otp-box" type="text" maxlength="1" id="o4" oninput="otpNext(this,'o5')" onkeydown="otpBack(event,this,'o3')"/>
+            <input class="otp-box" type="text" maxlength="1" id="o5" oninput="otpNext(this,'o6')" onkeydown="otpBack(event,this,'o4')"/>
+            <input class="otp-box" type="text" maxlength="1" id="o6" oninput="otpNext(this,'')"   onkeydown="otpBack(event,this,'o5')"/>
+          </div>
+          <div class="auth-error" id="tfa-error"></div>
+          <button class="btn-auth" onclick="verifyOTP()">Verify →</button>
+          <div class="auth-resend">Didn't get it? <span onclick="sendOTP()" style="color:var(--rose-dark);cursor:pointer;font-weight:700">Resend code</span></div>
+        </div>
+      </div>
+
+      <!-- STEP 4: Panel -->
+      <div id="admin-panel-content" class="admin-panel" style="display:none">
+
+        <!-- Invite link banner -->
+        <div style="background:linear-gradient(135deg,#fce4ef,#f9d0e3);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+          <div style="font-size:24px">🔗</div>
+          <div style="flex:1">
+            <div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:17px;color:var(--text-head);margin-bottom:3px">Member invite link</div>
+            <div style="font-size:12.5px;color:var(--plum-soft)">Share this link with your members — they'll land on the join page directly.</div>
+          </div>
+          <button class="btn-admin rose" onclick="copyInviteLink()" style="white-space:nowrap">📋 Copy invite link</button>
+        </div>
+
+        <div class="admin-section">
+          <div class="admin-section-title">Create a New Pod</div>
+          <div class="admin-section-sub">You're auto-added as host to every pod. Create as many pods as you need.</div>
+          <div class="input-row">
+            <div class="input-group" style="max-width:76px">
+              <label>Emoji</label>
+              <input type="text" id="new-pod-emoji" placeholder="🌸" maxlength="2" style="text-align:center;font-size:20px"/>
+            </div>
+            <div class="input-group">
+              <label>Pod name</label>
+              <input type="text" id="new-pod-name" placeholder="e.g. The Bloom Pod"/>
+            </div>
+            <div class="input-group">
+              <label>Google Meet link</label>
+              <input type="text" id="new-pod-meet" placeholder="https://meet.google.com/…"/>
+            </div>
+            <button class="btn-admin rose" onclick="createPod()">+ Create Pod</button>
+          </div>
+        </div>
+        <div class="admin-section">
+          <div class="admin-section-title">Manage Pods &amp; Members</div>
+          <div class="admin-section-sub">Add up to 4 members per pod (+ you as host = 5 total). No limits on number of pods.</div>
+          <div class="admin-pods-list" id="admin-pods-list"></div>
+          <div id="admin-pods-empty" style="text-align:center;padding:28px;color:var(--text-faint);font-size:13px">No pods yet — create your first one above 🌸</div>
+        </div>
+        <div class="admin-section">
+          <div class="admin-section-title">All Members</div>
+          <div class="admin-section-sub">Everyone assigned to a pod across your community.</div>
+          <table class="members-table"><thead><tr><th>Name</th><th>Role</th><th>Pod</th></tr></thead><tbody id="members-tbody"></tbody></table>
+        </div>
+        <div class="admin-section">
+          <div class="admin-section-title">Who's Joined 👀</div>
+          <div class="admin-section-sub">Everyone who has signed up via the landing page. Their name, Gmail and profession.</div>
+          <table class="members-table">
+            <thead><tr><th>Name</th><th>Gmail</th><th>Profession</th><th>Joined</th></tr></thead>
+            <tbody id="joined-tbody"></tbody>
+          </table>
+        </div>
+        <div class="admin-section">
+          <div class="admin-section-title">Change Admin Password</div>
+          <div class="admin-section-sub">Update your password anytime. Must meet the same strength requirements.</div>
+          <div class="input-row" style="flex-direction:column;gap:10px;max-width:360px">
+            <div class="input-group">
+              <label>Current password</label>
+              <input type="password" id="chg-cur" placeholder="Current password"/>
+            </div>
+            <div class="input-group">
+              <label>New password</label>
+              <input type="password" id="chg-new" placeholder="Min 8 chars, 1 number, 1 special char"/>
+            </div>
+            <div class="input-group">
+              <label>Confirm new password</label>
+              <input type="password" id="chg-con" placeholder="Re-enter new password"/>
+            </div>
+            <div class="auth-error" id="chg-error" style="font-size:12px"></div>
+            <button class="btn-admin rose" onclick="changeAdminPassword()" style="width:fit-content">Update Password</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+</div>
+
+<!-- CREATE POD MODAL -->
+<div class="modal-overlay" id="create-pod-overlay" onclick="closeCPModal(event)">
+  <div class="modal" style="width:460px">
+    <div class="modal-header">
+      <div style="font-size:20px">🌿</div>
+      <div class="modal-title">Create a New Pod</div>
+      <div class="modal-close" onclick="document.getElementById('create-pod-overlay').classList.remove('open')">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+    </div>
+    <div style="padding:18px;overflow-y:auto;max-height:calc(80vh - 68px);display:flex;flex-direction:column;gap:14px">
+      <div>
+        <div class="cp-label">Pod name</div>
+        <input class="cp-input" id="cp-name" placeholder="e.g. The Bloom Pod"/>
+      </div>
+      <div>
+        <div class="cp-label">Choose an emoji</div>
+        <div class="cp-emoji-row" id="cp-emoji-row">
+          <div class="cp-emoji picked" data-e="🌸" onclick="cpPickEmoji(this)">🌸</div>
+          <div class="cp-emoji" data-e="✨" onclick="cpPickEmoji(this)">✨</div>
+          <div class="cp-emoji" data-e="🌿" onclick="cpPickEmoji(this)">🌿</div>
+          <div class="cp-emoji" data-e="💛" onclick="cpPickEmoji(this)">💛</div>
+          <div class="cp-emoji" data-e="🔥" onclick="cpPickEmoji(this)">🔥</div>
+          <div class="cp-emoji" data-e="💜" onclick="cpPickEmoji(this)">💜</div>
+          <div class="cp-emoji" data-e="🌻" onclick="cpPickEmoji(this)">🌻</div>
+          <div class="cp-emoji" data-e="🌙" onclick="cpPickEmoji(this)">🌙</div>
+          <div class="cp-emoji" data-e="🦋" onclick="cpPickEmoji(this)">🦋</div>
+          <div class="cp-emoji" data-e="🌺" onclick="cpPickEmoji(this)">🌺</div>
+          <div class="cp-emoji" data-e="⚡" onclick="cpPickEmoji(this)">⚡</div>
+          <div class="cp-emoji" data-e="🍀" onclick="cpPickEmoji(this)">🍀</div>
+          <div class="cp-emoji" data-e="🌈" onclick="cpPickEmoji(this)">🌈</div>
+          <div class="cp-emoji" data-e="🎯" onclick="cpPickEmoji(this)">🎯</div>
+          <div class="cp-emoji" data-e="🌊" onclick="cpPickEmoji(this)">🌊</div>
+          <div class="cp-emoji" data-e="🎀" onclick="cpPickEmoji(this)">🎀</div>
+        </div>
+      </div>
+      <div>
+        <div class="cp-label">Google Meet link <span style="font-weight:400;color:var(--text-faint)">(optional)</span></div>
+        <input class="cp-input" id="cp-meet" placeholder="https://meet.google.com/xxx-xxxx-xxx"/>
+      </div>
+      <div>
+        <div class="cp-label">Add members <span style="font-weight:400;color:var(--text-faint)">(up to 3 — you're always included as host)</span></div>
+        <div class="cp-add-row" style="margin-bottom:8px">
+          <input class="cp-input" id="cp-new-name" placeholder="Full name" style="flex:1"/>
+          <input class="cp-input" id="cp-new-role" placeholder="Role" style="flex:1"/>
+          <button class="cp-add-btn" onclick="cpAddMember()">+ Add</button>
+        </div>
+        <div id="cp-chips" style="display:flex;flex-wrap:wrap;gap:6px;min-height:10px"></div>
+        <div id="cp-slot-info" style="font-size:11.5px;color:var(--text-faint);margin-top:6px">0 / 4 members added</div>
+      </div>
+      <button class="btn-create-pod-submit" onclick="submitCreatePod()">Create Pod →</button>
+    </div>
+  </div>
+</div>
+
+<!-- WELCOME INTRO MODAL -->
+<div class="modal-overlay" id="intro-overlay">
+  <div class="modal" style="width:520px;max-height:88vh">
+    <div class="modal-header" style="background:linear-gradient(135deg,#fce4ef,#f9d0e3);border-radius:18px 18px 0 0">
+      <div style="font-size:22px">🌸</div>
+      <div class="modal-title">Introduce yourself to the community</div>
+    </div>
+    <div style="padding:20px;overflow-y:auto;display:flex;flex-direction:column;gap:14px">
+      <div style="background:var(--pink);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--plum-soft);line-height:1.6">
+        Welcome! Before you dive in, take 2 minutes to introduce yourself. Your intro will show on your member card so others know who you are. 💛
+      </div>
+
+      <div class="intro-row">
+        <label class="intro-label">Your location <span style="color:var(--text-faint);font-weight:400">(city / country)</span></label>
+        <input class="intro-input" id="intro-location" placeholder="e.g. London, UK"/>
+      </div>
+
+      <div class="intro-row">
+        <label class="intro-label">What business are you building?</label>
+        <textarea class="intro-textarea" id="intro-business" placeholder="e.g. I run a personal branding studio for female coaches. I help them show up consistently on Instagram and attract high-ticket clients." rows="3"></textarea>
+      </div>
+
+      <div class="intro-row">
+        <label class="intro-label">What kind of accountability partner are you looking for?</label>
+        <div style="font-size:11.5px;color:var(--text-muted);margin-bottom:8px">Pick the qualities that matter most to you in a pod partner.</div>
+        <div id="partner-tags" style="display:flex;flex-wrap:wrap;gap:7px">
+          <span class="ptag" onclick="togglePtag(this)">Consistent ✅</span>
+          <span class="ptag" onclick="togglePtag(this)">Goal-driven 🎯</span>
+          <span class="ptag" onclick="togglePtag(this)">Honest &amp; direct 💬</span>
+          <span class="ptag" onclick="togglePtag(this)">Empathetic 💛</span>
+          <span class="ptag" onclick="togglePtag(this)">Action-taker ⚡</span>
+          <span class="ptag" onclick="togglePtag(this)">Positive energy 🌸</span>
+          <span class="ptag" onclick="togglePtag(this)">Structured &amp; organised 📋</span>
+          <span class="ptag" onclick="togglePtag(this)">Creative thinker 🎨</span>
+          <span class="ptag" onclick="togglePtag(this)">Calm under pressure 🌿</span>
+          <span class="ptag" onclick="togglePtag(this)">Big dreamer 🌙</span>
+        </div>
+      </div>
+
+      <div class="intro-row">
+        <label class="intro-label">Anything else you'd like to share? <span style="color:var(--text-faint);font-weight:400">(optional)</span></label>
+        <textarea class="intro-textarea" id="intro-extra" placeholder="A fun fact, your favourite quote, or what you're most excited about in the community…" rows="2"></textarea>
+      </div>
+
+      <div class="auth-error" id="intro-error"></div>
+      <button class="btn-post" style="margin-left:0;width:100%;padding:12px;border-radius:11px;font-size:14px" onclick="submitIntro()">Post my introduction →</button>
+      <div style="text-align:center;font-size:12px;color:var(--text-faint)">You can always update this from your profile later.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CHAT MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div id="modal-icon" style="font-size:20px;flex-shrink:0"></div>
+      <!-- Pod name is clickable — shows members panel -->
+      <div class="modal-title" id="modal-title" style="cursor:pointer" onclick="switchChatTab('members')" title="Click to see pod members">Pod Chat</div>
+      <button class="modal-meet-btn" onclick="openMeet()">
+        <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>Join Call
+      </button>
+      <div class="modal-close" onclick="closeModalDirect()">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+    </div>
+    <!-- Tabs -->
+    <div class="modal-tabs">
+      <button class="modal-tab active" id="tab-chat" onclick="switchChatTab('chat')">💬 Group Chat</button>
+      <button class="modal-tab" id="tab-members" onclick="switchChatTab('members')">👥 Members</button>
+    </div>
+    <!-- Chat panel -->
+    <div id="chat-panel">
+      <div class="chat-messages" id="chat-messages"></div>
+      <div id="chat-attach-preview" style="display:none;padding:6px 14px;border-top:1px solid var(--border-soft)"></div>
+      <div class="chat-input-area" style="flex-wrap:wrap;gap:6px;align-items:center">
+        <label class="chat-attach-btn" title="Attach photo or file" onclick="document.getElementById('chat-file-input').click()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+        </label>
+        <input type="text" id="chat-input" placeholder="Message your pod…" style="flex:1;min-width:0" onkeydown="if(event.key==='Enter')sendChat()"/>
+        <button class="btn-send" onclick="sendChat()"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+      </div>
+    </div>
+    <!-- Members panel -->
+    <div id="members-panel" style="display:none">
+      <div class="pod-members-panel" id="pod-members-list"></div>
+    </div>
+  </div>
+</div>
+<input type="file" id="chat-file-input" accept="image/*,.pdf,.doc,.docx,.txt,.pptx,.xlsx" multiple style="display:none" onchange="handleChatFileSelect(event)"/>
+
+<!-- PWA INSTALL BANNER (Android/Desktop) -->
+<div id="install-banner">
+  <div class="install-banner-icon">
+    <svg viewBox="0 0 44 44" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="22" cy="22" r="20" fill="#f5dce8"/>
+      <circle cx="22" cy="22" r="13" fill="#f0b8cc"/>
+      <circle cx="22" cy="22" r="7.5" fill="#fce8f2"/>
+      <circle cx="22" cy="22" r="4.5" fill="#F5C518"/>
+    </svg>
+  </div>
+  <div class="install-banner-text">
+    <div class="install-banner-title">Add Yellow Circle to your home screen</div>
+    <div class="install-banner-sub">Access the community like a real app — one tap away</div>
+  </div>
+  <button class="btn-install" onclick="installApp()">Install</button>
+  <button class="btn-install-dismiss" onclick="dismissInstall()">Not now</button>
+</div>
+
+<!-- iOS INSTALL INSTRUCTIONS -->
+<div id="ios-banner">
+  <button class="ios-banner-close" onclick="document.getElementById('ios-banner').classList.remove('show')">✕ Close</button>
+  <div class="ios-banner-title">📱 Add to your iPhone home screen</div>
+  <div class="ios-banner-steps">
+    1. Tap the <strong>Share button</strong> (□↑) at the bottom of Safari<br/>
+    2. Scroll down and tap <strong>"Add to Home Screen"</strong><br/>
+    3. Tap <strong>"Add"</strong> — Yellow Circle will appear on your home screen!
+  </div>
+</div>
+
+<script>
+// ── PWA INSTALL LOGIC ──
+let deferredPrompt = null;
+
+// Android / Chrome / Edge — capture the install prompt
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Show install banner after a short delay
+  setTimeout(() => {
+    document.getElementById('install-banner').classList.add('show');
+  }, 3000);
+});
+
+function installApp() {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then((choice) => {
+    if (choice.outcome === 'accepted') toast('Yellow Circle installed! 🌸 Check your home screen');
+    deferredPrompt = null;
+    document.getElementById('install-banner').classList.remove('show');
+  });
+}
+
+function dismissInstall() {
+  document.getElementById('install-banner').classList.remove('show');
+  try { sessionStorage.setItem('yc_install_dismissed','1'); } catch(e){}
+}
+
+// iOS Safari — show manual instructions
+function checkiOS() {
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const isInStandaloneMode = window.navigator.standalone;
+  const alreadyDismissed = sessionStorage.getItem('yc_ios_dismissed');
+  if (isIOS && !isInStandaloneMode && !alreadyDismissed) {
+    setTimeout(() => {
+      document.getElementById('ios-banner').classList.add('show');
+    }, 3000);
+  }
+}
+
+// Already installed check
+window.addEventListener('appinstalled', () => {
+  document.getElementById('install-banner').classList.remove('show');
+  toast('Yellow Circle added to your home screen! 🌸');
+});
+
+checkiOS();
+</script>
+
+<!-- CUSTOM DIALOG (prompt/confirm replacement) -->
+<div id="yc-dialog-overlay">
+  <div id="yc-dialog">
+    <div id="yc-dialog-title">Edit</div>
+    <div id="yc-dialog-msg"></div>
+    <textarea id="yc-dialog-input" placeholder="Type here…"></textarea>
+    <div id="yc-dialog-btns">
+      <button class="yc-dialog-cancel" onclick="ycDialogCancel()">Cancel</button>
+      <button class="yc-dialog-ok" id="yc-dialog-ok-btn" onclick="ycDialogOK()">OK</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="document.getElementById('lightbox').classList.remove('open')">
+  <img id="lightbox-img" src="" alt=""/>
+</div>
+
+<!-- Hidden file input for posts -->
+<input type="file" id="post-file-input" accept="image/*,.pdf,.doc,.docx,.txt,.pptx,.xlsx" multiple style="display:none" onchange="handleFileSelect(event)"/>
+<input type="file" id="dm-file-input" accept="image/*,.pdf,.doc,.docx,.txt,.pptx,.xlsx" multiple style="display:none" onchange="handleDMFileSelect(event)"/>
+<!-- Hidden file inputs for updates section -->
+<input type="file" id="update-file-input" accept="image/*,video/*,.pdf,.doc,.docx,.pptx,.xlsx,.txt" style="display:none" onchange="handleUpdateFile(event)"/>
+<input type="file" id="update-thumb-input" accept="image/*" style="display:none" onchange="handleUpdateThumb(event)"/>
+
+<script>
+// ── SECURITY HELPERS ──
+// Sanitize all user-generated text before injecting into innerHTML
+function sanitize(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+
+// Max file size: 5MB per file
+const MAX_FILE_BYTES = 5 * 1024 * 1024;
+
+// ── STATE ──
+let role='host';
+let activePod=null, podChats={}, selectedTag='General', postLikes={}, showComments={};
+let cpPickedEmoji='🌸', cpMembers=[];
+let nextId=4;
+
+// ── BACKEND PERSISTENCE ──
+let _backendSaveTimer = null;
+let _backendLoadedOnce = false;
+
+async function loadBackendState() {
+  try {
+    const r = await fetch('/api/state', { method: 'GET', cache: 'no-store' });
+    if (!r.ok) return;
+    const j = await r.json();
+    if (!j || !j.seeded || !j.data) return;
+    const s = j.data;
+
+    if (Array.isArray(s.PODS)) PODS = s.PODS;
+    if (Array.isArray(s.POSTS) && Array.isArray(POSTS)) {
+      POSTS.splice(0, POSTS.length, ...s.POSTS);
+    }
+    if (Array.isArray(s.QA)) QA = s.QA;
+    if (Array.isArray(s.UPDATES_DATA)) UPDATES_DATA = s.UPDATES_DATA;
+    if (Array.isArray(s.communityMembers)) communityMembers = s.communityMembers;
+    if (s.podChats && typeof s.podChats === 'object') podChats = s.podChats;
+    if (s.dmThreads && typeof s.dmThreads === 'object') dmThreads = s.dmThreads;
+
+    if (typeof s.nextId === 'number') {
+      nextId = s.nextId;
+    } else {
+      const maxId = Math.max(0, ...(PODS.map(p => Number(p.id) || 0)));
+      nextId = maxId + 1;
+    }
+
+    _backendLoadedOnce = true;
+  } catch (e) {
+    console.warn('Backend state load failed (continuing with seeds).', e);
+  }
+}
+
+function getBackendState() {
+  // UPDATES_DATA is lazily created, so force materialization here.
+  const updates = UPDATES_DATA ? UPDATES_DATA : getUpdatesData();
+  return {
+    PODS,
+    POSTS,
+    QA,
+    UPDATES_DATA: updates,
+    communityMembers,
+    podChats,
+    dmThreads,
+    nextId,
+  };
+}
+
+async function saveBackendStateNow() {
+  try {
+    const payload = getBackendState();
+    const r = await fetch('/api/saveState', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!r.ok) console.warn('Backend save failed.', r.status);
+  } catch (e) {
+    console.warn('Backend save failed.', e);
+  }
+}
+
+function scheduleBackendSave() {
+  if (_backendSaveTimer) clearTimeout(_backendSaveTimer);
+  _backendSaveTimer = setTimeout(() => {
+    saveBackendStateNow();
+  }, 450);
+}
+
+// Members who have joined via the landing page (admin can see these)
+let communityMembers = [
+  {name:'Luna K.', gmail:'luna.kim@gmail.com', profession:'Graphic Designer', joinedAt:'20 Mar, 09:14'},
+  {name:'Maya R.', gmail:'maya.rose@gmail.com', profession:'Content Writer', joinedAt:'19 Mar, 14:32'},
+  {name:'Priya T.', gmail:'priya.t@gmail.com', profession:'Social Media Manager', joinedAt:'18 Mar, 11:05'},
+];
+
+const AVC=['#e88faa','#c97896','#a85c7a','#d4a0b5','#b87090','#e0a8bc','#c48898','#d896a8','#bf7e96','#e8a0b4'];
+const PASTEL=['#fde8ef','#fef3d0','#e8f5ee','#fff8e1','#ffe8e0','#ede8ff','#fff3e0','#e8eeff','#f5e8f5','#e8f0ff'];
+const ICONS=['🌸','✨','🌿','💛','🔥','💜','🌻','🌙','🦋','🌺'];
+
+// Current user's pod (for member view) - member is in pod id=1
+const MEMBER_POD_ID = 1;
+const MEMBER_NAME = 'Luna K.';
+const MEMBER_COLOR = '#e88faa';
+
+let PODS=[
+  {id:1,name:'The Bloom Pod',icon:'🌸',bg:'#fde8ef',meet:'https://meet.google.com',members:[{name:'Luna K.',role:'Graphic Designer',color:'#e88faa'},{name:'Maya R.',role:'Content Writer',color:'#c97896'},{name:'Jade S.',role:'Coach',color:'#a85c7a'}]},
+  {id:2,name:'The Spark Pod',icon:'✨',bg:'#fef3d0',meet:'https://meet.google.com',members:[{name:'Priya T.',role:'Social Media Mgr',color:'#d4a0b5'},{name:'Chloe B.',role:'Brand Manager',color:'#b87090'}]},
+  {id:3,name:'The Rise Pod',icon:'🌿',bg:'#e8f5ee',meet:'https://meet.google.com',members:[{name:'Fiona L.',role:'Copywriter',color:'#e0a8bc'}]},
+];
+
+const POSTS=[
+  {author:'Luna K.',role:'Graphic Designer',color:'#e88faa',text:'Just landed my first retainer client through cold DMs! 🎉 The accountability check-ins in our pod kept me so consistent!',type:'Win 🏆',likes:14,time:'2h ago',comments:[{author:'Maya R.',color:'#c97896',text:'You deserve this!! 💖'},{author:'Jade S.',color:'#a85c7a',text:'Screaming for you 🎉'}]},
+  {author:'Priya T.',role:'Social Media Manager',color:'#d4a0b5',text:'How are you all handling client onboarding with multiple new clients at once? 3 starting this month 😅',type:'Question',likes:6,time:'4h ago',comments:[{author:'Chloe B.',color:'#b87090',text:'I use a Notion template — happy to share!'}]},
+  {author:'Zara N.',role:'Content Writer',color:'#e0a8bc',text:'Weekly update: sent 10 proposals, 2 discovery calls booked. Slow but showing up every day 🌱',type:'Update',likes:11,time:'6h ago',comments:[]},
+];
+
+const UPDATES=[
+  {emoji:'🎬',bg:'linear-gradient(135deg,#fce4ef,#f9d0e3)',tag:'New Video',title:'How to Price Your Services With Confidence',date:'March 20, 2026'},
+  {emoji:'📋',bg:'linear-gradient(135deg,#e8f5ee,#d0f0e0)',tag:'Resource',title:'Lead Generation Swipe File — 30 DM Templates',date:'March 18, 2026'},
+  {emoji:'🎙',bg:'linear-gradient(135deg,#fff3e0,#ffe0b0)',tag:'Training',title:'Mastering Discovery Calls — Live Replay',date:'March 15, 2026'},
+  {emoji:'✨',bg:'linear-gradient(135deg,#ede8ff,#ddd0ff)',tag:'Workshop',title:'Building Your Signature Offer in 5 Days',date:'March 10, 2026'},
+  {emoji:'📈',bg:'linear-gradient(135deg,#e8eeff,#d0d8ff)',tag:'New Video',title:'The Content Strategy That Got Me 10 Clients',date:'March 5, 2026'},
+];
+
+let QA=[
+  {q:'How do I get my first client if I have zero portfolio?',asker:'Iris T. · 3 days ago',answer:'Start with one small project — even free — just to get a result. Document it. That case study IS your portfolio.'},
+  {q:'How many times should I follow up with a prospect?',asker:'Mara P. · 1 week ago',answer:null},
+];
+
+const SMSG=[
+  {author:'Luna K.',color:'#e88faa',text:'Hey everyone! Ready for our weekly check-in? 🌸',time:'10:02 AM'},
+  {author:'Maya R.',color:'#c97896',text:'Yes!! Hit my goal of 5 outreach messages yesterday 💪',time:'10:04 AM'},
+  {author:'Jade S.',color:'#a85c7a',text:'Amazing!! I\'m still working on mine but real progress 🌱',time:'10:05 AM'},
+];
+
+// ── LANDING / ONBOARDING ──
+let currentUser = { name:'', firstName:'', profession:'', gmail:'', color:'#e88faa' };
+
+function checkLandingOnLoad() {
+  const showLanding = window.location.search.includes('join=1');
+  if (!showLanding) {
+    document.getElementById('landing').classList.add('hidden');
+    return;
+  }
+  try {
+    const saved = sessionStorage.getItem('yc_user');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      // Validate saved data has required fields before trusting it
+      if (parsed && parsed.name && parsed.gmail && parsed.profession) {
+        currentUser = parsed;
+        document.getElementById('landing').classList.add('hidden');
+        role = 'member';
+        buildNav(); renderSidebarFooter(); renderFeed(); renderPods(); renderUpdates(); renderQA();
+        initDMs();
+      } else {
+        sessionStorage.removeItem('yc_user'); // clear corrupt data
+      }
+    }
+  } catch(e) {
+    sessionStorage.removeItem('yc_user');
+    document.getElementById('landing').classList.add('hidden');
+  }
+}
+
+function joinCommunity() {
+  let fname  = document.getElementById('join-fname').value.trim().slice(0,40);
+  let lname  = document.getElementById('join-lname').value.trim().slice(0,40);
+  const gmail  = document.getElementById('join-gmail').value.trim().toLowerCase().slice(0,100);
+  const prof   = document.getElementById('join-profession').value;
+  const err    = document.getElementById('join-error');
+  const errEmail = document.getElementById('join-error-email');
+
+  err.style.display = 'none';
+  errEmail.style.display = 'none';
+
+  if (!fname || !lname || !gmail || !prof) {
+    err.style.display = 'block'; return;
+  }
+  // Validate gmail
+  if (!gmail.endsWith('@gmail.com') || gmail.length < 11) {
+    errEmail.style.display = 'block'; return;
+  }
+  // Strip any HTML/script from names
+  fname = sanitize(fname);
+  lname = sanitize(lname);
+
+  currentUser = {
+    name: fname + ' ' + lname,
+    firstName: fname,
+    profession: prof,
+    gmail: sanitize(gmail),
+    color: '#e88faa'
+  };
+
+  // Save to sessionStorage so landing doesn't show again this session
+  try { sessionStorage.setItem('yc_user', JSON.stringify(currentUser)); } catch(e){}
+
+  // Add this member to the community members list (admin can see them)
+  communityMembers.push({
+    name: currentUser.name,
+    gmail: currentUser.gmail,
+    profession: currentUser.profession,
+    joinedAt: new Date().toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})
+  });
+
+  document.getElementById('landing').classList.add('hidden');
+  role = 'member';
+  document.querySelectorAll('.srs-btn').forEach(b => b.classList.remove('active'));
+  buildNav(); renderSidebarFooter(); renderFeed(); renderPods(); renderUpdates(); renderQA();
+  initDMs();
+  // Show intro modal unless already done
+  try {
+    if (!sessionStorage.getItem('yc_intro_done')) setTimeout(openIntroModal, 600);
+  } catch(e){}
+  scheduleBackendSave();
+  toast('Welcome to Yellow Circle, ' + fname + '! 🌸');
+}
+
+// ── SIDEBAR MOBILE TOGGLE ──
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('open');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('open');
+}
+
+// ── ROLE SYSTEM ──
+function setRole(r, btn) {
+  role = r;
+  document.querySelectorAll('.srs-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // When host previews as member, use a demo user if no real currentUser
+  if (r === 'member' && !currentUser.name) {
+    currentUser = { name:'Luna K.', firstName:'Luna', profession:'Graphic Designer', gmail:'luna.kim@gmail.com', color:'#e88faa' };
+  }
+  buildNav();
+  renderSidebarFooter();
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-feed').classList.add('active');
+  document.getElementById('topbar-title').textContent = 'Community Feed';
+  renderTopbarRight('feed');
+  renderFeed();
+  renderPods();
+  renderUpdates();
+}
+
+function buildNav() {
+  const isHost = role === 'host';
+  const nav = document.getElementById('sidebar-nav');
+  nav.innerHTML = `
+    <div class="nav-label">Community</div>
+    <div class="nav-item active" onclick="showPage('feed',this)">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Community Feed
+    </div>
+    <div class="nav-item" onclick="showPage('wins',this)">
+      <svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>Win Wall 🏆
+    </div>
+    <div class="nav-item" onclick="showPage('members',this)">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Members 🌸
+    </div>
+    <div class="nav-item" onclick="showPage('dms',this)">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Messages 💌
+      <span class="nav-badge" id="dm-badge" style="display:none">0</span>
+    </div>
+    <div class="nav-item" onclick="showPage('pods',this)">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>${isHost ? 'All Pods' : 'My Pod'}
+    </div>
+    <div class="nav-label">From Your Host</div>
+    <div class="nav-item" onclick="showPage('updates',this)">
+      <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>Updates &amp; Videos
+    </div>
+    <div class="nav-item" onclick="showPage('qa',this)">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Q &amp; A
+      <span class="nav-badge" id="qa-badge" style="display:none">!</span>
+    </div>
+    ${isHost ? `
+    <div class="nav-admin-divider"></div>
+    <div class="nav-label">Host Only</div>
+    <div class="nav-item admin-link" onclick="showPage('admin',this)">
+      <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Admin Panel
+    </div>` : ''}
+  `;
+}
+
+function renderSidebarFooter() {
+  const isHost = role === 'host';
+  const memberName = currentUser.name || 'Luna K.';
+  const memberProf = currentUser.profession || 'Graphic Designer';
+  const initials = memberName.split(' ').map(n=>n[0]).join('').slice(0,2);
+  document.getElementById('sidebar-footer').innerHTML = isHost
+    ? `<div class="avatar">Y</div><div><div class="user-name">You (Host)</div><div class="host-chip">Admin</div></div>`
+    : `<div class="avatar" style="background:#e88faa">${initials}</div><div><div class="user-name">${memberName}</div><div class="user-sub">${memberProf}</div></div>`;
+
+  const hostBtn   = document.getElementById('srs-host-btn');
+  const memberBtn = document.getElementById('srs-member-btn');
+  const label     = document.getElementById('srs-label');
+
+  // Always re-wire both buttons so switching back always works
+  if (hostBtn) {
+    hostBtn.style.display = '';
+    hostBtn.style.cursor  = 'pointer';
+    hostBtn.classList.toggle('active', isHost);
+    hostBtn.onclick = function(){ setRole('host', this); };
+  }
+  if (memberBtn) {
+    memberBtn.style.display = '';
+    memberBtn.style.cursor  = 'pointer';
+    memberBtn.classList.toggle('active', !isHost);
+    memberBtn.onclick = function(){ setRole('member', this); };
+  }
+
+  if (label) label.textContent = 'Preview as';
+}
+
+function renderTopbarRight(pageId) {
+  const badge = document.getElementById('topbar-badge');
+  if (!badge) return;
+  if (pageId === 'admin') {
+    badge.textContent = '⚙ ADMIN MODE';
+    badge.style.background = '#f0e0e8';
+    badge.style.color = 'var(--plum)';
+    badge.style.borderColor = '#dbb8c8';
+    badge.style.fontWeight = '700';
+  } else {
+    badge.textContent = role === 'host' ? '🌸 Host — All Pods' : '🌸 The Bloom Pod';
+    badge.style.background = '';
+    badge.style.color = '';
+    badge.style.borderColor = '';
+    badge.style.fontWeight = '';
+  }
+}
+
+function showPage(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  el.classList.add('active');
+  const T = {
+    feed:'Community Feed', wins:'Win Wall 🏆', members:'Members Directory',
+    dms:'Messages', pods: role==='host'?'All Pods':'My Pod',
+    updates:'Updates & Videos', qa:'Q & A', admin:'Admin Panel'
+  };
+  document.getElementById('topbar-title').textContent = T[id];
+  renderTopbarRight(id);
+  if (id === 'admin')   { if (!adminUnlocked) showAdminAuth(); else renderAdmin(); }
+  if (id === 'pods')    renderPods();
+  if (id === 'qa')      renderQA();
+  if (id === 'feed')    renderFeed();
+  if (id === 'wins')    renderWinWall();
+  if (id === 'members') renderMembersDirectory();
+  if (id === 'dms')     renderMessagesPage();
+  if (id === 'updates') renderUpdates();
+  closeSidebar();
+}
+
+// ── FEED ──
+let pendingFiles = []; // {name, type, dataUrl}
+
+function selectTag(el, t) {
+  document.querySelectorAll('.tag-pill').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected'); selectedTag = t;
+}
+
+function triggerFileUpload() { document.getElementById('post-file-input').click(); }
+
+function handleFileSelect(e) {
+  const files = Array.from(e.target.files);
+  files.forEach(file => {
+    if (file.size > MAX_FILE_BYTES) { toast(`"${file.name}" is too large. Max 5MB per file.`); return; }
+    const reader = new FileReader();
+    reader.onload = ev => {
+      pendingFiles.push({ name: sanitize(file.name), type: file.type, dataUrl: ev.target.result });
+      renderFilePreviews();
+    };
+    reader.readAsDataURL(file);
+  });
+  e.target.value = '';
+}
+
+function renderFilePreviews() {
+  const el = document.getElementById('file-previews-area');
+  if (!el) return;
+  el.innerHTML = pendingFiles.map((f, i) => {
+    if (f.type.startsWith('image/')) {
+      return `<div class="file-preview">
+        <img src="${f.dataUrl}" alt="${f.name}"/>
+        <button class="file-preview-rm" onclick="removeFile(${i})">✕</button>
+      </div>`;
+    } else {
+      return `<div class="file-preview">
+        <div class="file-preview-doc">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span>${f.name}</span>
+        </div>
+        <button class="file-preview-rm" onclick="removeFile(${i})">✕</button>
+      </div>`;
+    }
+  }).join('');
+}
+
+function removeFile(i) { pendingFiles.splice(i, 1); renderFilePreviews(); }
+
+function postToFeed() {
+  const raw = document.getElementById('compose-text').value.trim();
+  if (!raw && pendingFiles.length === 0) { toast('Write something or add a file first 🌸'); return; }
+  if (raw.length > 2000) { toast('Post is too long — max 2000 characters 🌸'); return; }
+  const txt = raw; // kept as-is for display; sanitize() applied at render time
+  const isHost = role === 'host';
+  const author = isHost ? 'You (Host)' : (currentUser.name || MEMBER_NAME);
+  const authorRole = isHost ? 'Host' : (currentUser.profession || 'Member');
+  const color = isHost ? '#a84f6a' : (currentUser.color || MEMBER_COLOR);
+  POSTS.unshift({
+    author, role: authorRole, color, text: txt, type: selectedTag,
+    likes: 0, time: 'Just now', comments: [], mine: true,
+    files: [...pendingFiles]
+  });
+  pendingFiles = [];
+  renderFeed();
+  document.getElementById('compose-text').value = '';
+  maybeNotify('New post in Yellow Circle 🌸', `${author}: ${txt.slice(0,80)}`);
+  scheduleBackendSave();
+  toast('Posted ✨');
+}
+
+// ── NOTIFICATIONS ──
+let notifState = 'default'; // 'default' | 'enabled' | 'muted'
+
+let _notifJustOpened = false;
+
+function toggleNotifPanel() {
+  const panel = document.getElementById('notif-panel');
+  if (!panel) return;
+  if (panel.classList.contains('open')) {
+    panel.classList.remove('open');
+  } else {
+    panel.classList.add('open');
+    syncNotifUI();
+    _notifJustOpened = true;
+    setTimeout(() => { _notifJustOpened = false; }, 100);
+  }
+}
+
+// Close panel when clicking outside — registered once at bottom of script
+function _handleNotifOutsideClick(e) {
+  if (_notifJustOpened) return;
+  const wrap = document.getElementById('notif-wrap');
+  const panel = document.getElementById('notif-panel');
+  if (panel && panel.classList.contains('open')) {
+    if (!wrap || !wrap.contains(e.target)) {
+      panel.classList.remove('open');
+    }
+  }
+}
+
+function syncNotifUI() {
+  const enableOpt = document.getElementById('notif-opt-enable');
+  const muteOpt   = document.getElementById('notif-opt-mute');
+  const statusEl  = document.getElementById('notif-status');
+  const bellIcon  = document.getElementById('notif-bell-icon');
+
+  if (enableOpt) enableOpt.classList.toggle('active', notifState === 'enabled');
+  if (muteOpt)   muteOpt.classList.toggle('active',   notifState === 'muted');
+
+  // Bell icon — crossed out when muted
+  if (bellIcon) {
+    if (notifState === 'muted') {
+      bellIcon.innerHTML = `
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="var(--text-faint)"/>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="var(--text-faint)"/>
+        <line x1="2" y1="2" x2="22" y2="22" stroke="var(--text-faint)" stroke-width="1.8"/>`;
+    } else {
+      bellIcon.innerHTML = `
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="var(--rose-dark)"/>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="var(--rose-dark)"/>`;
+    }
+  }
+
+  // Status text
+  if (statusEl) {
+    if (notifState === 'enabled') {
+      statusEl.textContent = '✅ Push notifications are on';
+      statusEl.classList.add('show');
+    } else if (notifState === 'muted') {
+      statusEl.textContent = '🔕 Notifications are muted';
+      statusEl.classList.add('show');
+    } else {
+      statusEl.textContent = '';
+      statusEl.classList.remove('show');
+    }
+  }
+}
+
+async function enableNotifications() {
+  // If already muted, just switch state — no need to re-request permission
+  if (notifState === 'muted') {
+    notifState = 'enabled';
+    syncNotifUI();
+    toast('Notifications re-enabled 🔔');
+    return;
+  }
+
+  const statusEl = document.getElementById('notif-status');
+
+  if (!('Notification' in window)) {
+    notifState = 'enabled'; // still mark as "enabled" in-app even without OS support
+    syncNotifUI();
+    toast('Notifications enabled 🔔');
+    return;
+  }
+
+  if (Notification.permission === 'granted') {
+    notifState = 'enabled';
+    syncNotifUI();
+    sendTestNotification();
+    toast('Notifications enabled 🔔');
+    return;
+  }
+
+  if (Notification.permission === 'denied') {
+    // Permission blocked by browser — still switch in-app state
+    notifState = 'enabled';
+    syncNotifUI();
+    if (statusEl) {
+      statusEl.textContent = '⚠️ Browser blocked notifications. Go to Settings → Site Settings → Notifications to allow. In-app state set to enabled.';
+      statusEl.classList.add('show');
+    }
+    return;
+  }
+
+  // Request permission
+  if (statusEl) { statusEl.textContent = '⏳ Requesting permission…'; statusEl.classList.add('show'); }
+  const permission = await Notification.requestPermission();
+  notifState = 'enabled'; // always switch state regardless of OS decision
+  syncNotifUI();
+  if (permission === 'granted') {
+    sendTestNotification();
+    toast('Notifications enabled 🔔');
+  } else {
+    if (statusEl) {
+      statusEl.textContent = '⚠️ OS blocked push — go to browser Settings to allow. In-app state set to enabled.';
+      statusEl.classList.add('show');
+    }
+  }
+}
+
+function muteNotifications() {
+  notifState = 'muted';
+  syncNotifUI();
+  toast('Notifications muted 🔕');
+}
+
+function sendTestNotification() {
+  if (Notification.permission !== 'granted') return;
+  try {
+    new Notification('Yellow Circle 🌸', {
+      body: 'Notifications are on! You\'ll be notified about new messages, posts and Q&A.',
+      icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20" fill="%23f5dce8"/><circle cx="22" cy="22" r="13" fill="%23f0b8cc"/><circle cx="22" cy="22" r="7.5" fill="%23fce8f2"/><circle cx="22" cy="22" r="4.5" fill="%23F5C518"/></svg>',
+      badge: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20" fill="%23f5dce8"/><circle cx="22" cy="22" r="4.5" fill="%23F5C518"/></svg>',
+      tag: 'yc-welcome'
+    });
+  } catch(e) {
+    // Notification failed silently — no crash
+  }
+}
+
+// Trigger a push notification when a new post is made (if enabled)
+function maybeNotify(title, body) {
+  if (notifState !== 'enabled') return;
+  if (Notification.permission !== 'granted') return;
+  try {
+    new Notification(title, {
+      body,
+      icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20" fill="%23f5dce8"/><circle cx="22" cy="22" r="4.5" fill="%23F5C518"/></svg>',
+      tag: 'yc-' + Date.now()
+    });
+  } catch(e) {}
+}
+
+// ── CUSTOM DIALOG (works in iframes — replaces prompt/confirm) ──
+let _ycDialogCallback = null;
+
+function ycPrompt(title, currentValue, callback) {
+  document.getElementById('yc-dialog-title').textContent = title;
+  document.getElementById('yc-dialog-msg').textContent = '';
+  const inp = document.getElementById('yc-dialog-input');
+  inp.style.display = 'block';
+  inp.value = currentValue || '';
+  const okBtn = document.getElementById('yc-dialog-ok-btn');
+  okBtn.textContent = 'Save';
+  okBtn.className = 'yc-dialog-ok';
+  _ycDialogCallback = (confirmed) => { if (confirmed) callback(inp.value.trim()); };
+  document.getElementById('yc-dialog-overlay').classList.add('open');
+  setTimeout(() => inp.focus(), 100);
+}
+
+function ycConfirm(title, msg, callback) {
+  document.getElementById('yc-dialog-title').textContent = title;
+  document.getElementById('yc-dialog-msg').textContent = msg;
+  document.getElementById('yc-dialog-input').style.display = 'none';
+  const okBtn = document.getElementById('yc-dialog-ok-btn');
+  okBtn.textContent = 'Delete';
+  okBtn.className = 'yc-dialog-ok danger';
+  _ycDialogCallback = callback;
+  document.getElementById('yc-dialog-overlay').classList.add('open');
+}
+
+function ycDialogOK() {
+  document.getElementById('yc-dialog-overlay').classList.remove('open');
+  if (_ycDialogCallback) _ycDialogCallback(true);
+  _ycDialogCallback = null;
+}
+
+function ycDialogCancel() {
+  document.getElementById('yc-dialog-overlay').classList.remove('open');
+  _ycDialogCallback = null;
+}
+
+// ── POST EDIT/DELETE ──
+function editPost(i) {
+  if (!POSTS[i]) return;
+  ycPrompt('Edit your post', POSTS[i].text, (newText) => {
+    if (newText) {
+      POSTS[i].text = newText;
+      POSTS[i].edited = true;
+      renderFeed();
+      toast('Post updated ✏️');
+      scheduleBackendSave();
+    }
+  });
+}
+
+function deletePost(i) {
+  if (!POSTS[i]) return;
+  ycConfirm('Delete post?', 'This cannot be undone.', (confirmed) => {
+    if (confirmed) {
+      POSTS.splice(i, 1);
+      renderFeed();
+      toast('Post deleted 🗑');
+      scheduleBackendSave();
+    }
+  });
+}
+
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function renderFeed() {
+  const isHost = role === 'host';
+  const firstName = currentUser.firstName || 'Luna';
+  const initials = (currentUser.name || 'L').split(' ').map(n=>n[0]).join('').slice(0,2);
+  // Who am I right now? Used to check post ownership
+  const myAuthor = isHost ? 'You (Host)' : (currentUser.name || MEMBER_NAME);
+
+  document.getElementById('feed-welcome').innerHTML = `<div class="welcome-banner">
+    <div class="welcome-title">${isHost ? 'Welcome back ✨' : 'Welcome back, '+firstName+' ✨'}</div>
+    <div class="welcome-sub">${isHost ? 'Your community is showing up. Keep leading. 🌿' : 'Your community is cheering you on. What are you working on today?'}</div>
+  </div>`;
+
+  document.getElementById('host-compose').innerHTML = `<div class="compose-box">
+    <div class="compose-row">
+      <div class="avatar" style="${isHost?'':'background:#e88faa'}">${isHost?'Y':initials}</div>
+      <div class="compose-right">
+        <textarea id="compose-text" placeholder="Share an update, a win, or something on your mind…"></textarea>
+        <div id="file-previews-area" class="file-previews"></div>
+        <div class="compose-footer">
+          <span class="tag-pill selected" onclick="selectTag(this,'General')">General</span>
+          <span class="tag-pill" onclick="selectTag(this,'Win 🏆')">Win 🏆</span>
+          <span class="tag-pill" onclick="selectTag(this,'Update')">Update</span>
+          <span class="tag-pill" onclick="selectTag(this,'Question')">Question</span>
+          <label class="upload-btn" onclick="triggerFileUpload()">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Photo / File
+          </label>
+          <button class="btn-post" onclick="postToFeed()">Post →</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+
+  document.getElementById('feed-posts').innerHTML = POSTS.map((p, i) => {
+    const bc = {'Win 🏆':'badge-win','Update':'badge-update','Question':'badge-question','General':'badge-general'}[p.type]||'badge-general';
+
+    // ONLY show menu if this post was made by the currently logged-in user
+    // p.mine=true means it was posted this session
+    // Also match by author name as fallback
+    const isMyPost = p.mine === true || p.author === myAuthor;
+    const canEdit = isMyPost; // strict: only your own posts
+
+    // Attachments
+    const images = (p.files||[]).filter(f => f.type && f.type.startsWith('image/'));
+    const docs   = (p.files||[]).filter(f => f.type && !f.type.startsWith('image/'));
+    const attachHtml = (images.length || docs.length) ? `<div class="post-attachments">
+      ${images.length === 1
+        ? `<img class="post-img" src="${images[0].dataUrl}" alt="${images[0].name}" onclick="openLightbox('${images[0].dataUrl}')"/>`
+        : images.map(img=>`<img class="post-img-thumb" src="${img.dataUrl}" alt="${img.name}" onclick="openLightbox('${img.dataUrl}')">`).join('')}
+      ${docs.map(d=>`<div class="post-doc" onclick="window.open('${d.dataUrl}')">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        ${d.name}
+      </div>`).join('')}
+    </div>` : '';
+
+    const ch = showComments[i] ? `<div class="comments">
+      ${p.comments.map((c,ci)=>`<div class="comment">
+        <div class="comment-avatar" style="background:${c.color}">${c.author[0]}</div>
+        <div class="comment-bubble">
+          <div class="comment-name">${sanitize(c.author)}</div>
+          <div class="comment-text">${sanitize(c.text)}${c.edited?' <span style="font-size:10px;color:var(--text-faint)">· edited</span>':''}</div>
+        </div>
+        ${c.mine===true?`<div class="comment-actions">
+          <button class="comment-act-btn edit-btn" onclick="editComment(${i},${ci})">✏️</button>
+          <button class="comment-act-btn del-btn" onclick="deleteComment(${i},${ci})">🗑</button>
+        </div>`:''}
+      </div>`).join('')}
+      <div class="comment-input">
+        <div class="avatar" style="width:26px;height:26px;font-size:10px;${!isHost?'background:#e88faa':''}">${isHost?'Y':initials}</div>
+        <input type="text" id="ci-${i}" placeholder="Add a comment…" onkeydown="if(event.key==='Enter')addComment(${i})"/>
+        <button class="btn-comment" onclick="addComment(${i})">Send</button>
+      </div></div>` : '';
+
+    return `<div class="post">
+      <div class="post-header">
+        <div class="post-avatar" style="background:${p.color}">${p.author[0]}</div>
+        <div class="post-meta">
+          <div class="post-author">${sanitize(p.author)} <span style="font-weight:400;font-size:11.5px;color:var(--text-faint)">${sanitize(p.role)}</span></div>
+          <div class="post-time">${sanitize(p.time)}${p.edited?' · edited':''}</div>
+        </div>
+        <span class="post-type-badge ${bc}">${p.type}</span>
+        ${canEdit ? `<div class="post-own-actions">
+          <button class="post-act-btn" onclick="editPost(${i})" title="Edit post">✏️</button>
+          <button class="post-act-btn danger" onclick="deletePost(${i})" title="Delete post">🗑</button>
+        </div>` : ''}
+      </div>
+      ${attachHtml}
+      ${p.text ? `<div class="post-text">${sanitize(p.text)}</div>` : ''}
+      <div class="post-actions">
+        <button class="action-btn ${postLikes[i]?'liked':''}" onclick="toggleLike(${i})">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>${p.likes} likes</button>
+        <button class="action-btn" onclick="toggleComments(${i})">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>${p.comments.length} comments</button>
+      </div>${ch}
+    </div>`;
+  }).join('');
+}
+
+function toggleLike(i){
+  if(postLikes[i]){POSTS[i].likes--;delete postLikes[i]}
+  else{POSTS[i].likes++;postLikes[i]=true}
+  scheduleBackendSave();
+  renderFeed();
+}
+function toggleComments(i){showComments[i]=!showComments[i];renderFeed()}
+function addComment(i){
+  const inp=document.getElementById('ci-'+i);if(!inp)return;
+  const txt=inp.value.trim();if(!txt)return;
+  const isHost=role==='host';
+  const author=isHost?'You (Host)':(currentUser.name||MEMBER_NAME);
+  const color=isHost?'#a84f6a':MEMBER_COLOR;
+  POSTS[i].comments.push({author,color,text:txt,mine:true});
+  renderFeed();toast('Comment added 💬');
+  scheduleBackendSave();
+}
+
+// ── PODS ──
+function renderPods() {
+  const isHost = role === 'host';
+  // Show/hide create pod button
+  const cpBtn = document.getElementById('btn-create-pod');
+  if (cpBtn) cpBtn.style.display = isHost ? 'inline-flex' : 'none';
+  document.getElementById('pods-sub').textContent = isHost
+    ? 'You\'re in every pod as host. Create unlimited pods and assign members.'
+    : 'Your 4-person circle — real talk, real goals, real growth.';
+
+  const visiblePods = isHost ? PODS : PODS.filter(p => p.id === MEMBER_POD_ID);
+  const el = document.getElementById('pods-grid');
+
+  if (!visiblePods.length) {
+    el.innerHTML = `<div class="empty-pods"><span>🌿</span>${isHost ? 'No pods yet — create your first one above!' : 'You haven\'t been assigned to a pod yet.'}</div>`;
+    return;
+  }
+
+  el.innerHTML = visiblePods.map((p, i) => {
+    const allMembers = [{name:'You (Host)', color:'#a84f6a'}, ...p.members];
+    const podIdx = PODS.indexOf(p);
+    return `<div class="pod-card">
+      <div class="pod-top">
+        <div class="pod-icon" style="background:${p.bg}">${p.icon}</div>
+        <div><div class="pod-name">${p.name}</div><div class="pod-desc">${isHost?`You + ${p.members.length} member${p.members.length!==1?'s':''}`:p.members.length+1+' members including host'}</div></div>
+      </div>
+      <div class="pod-members-row">
+        ${allMembers.slice(0,5).map(m=>`<div class="pod-av" style="background:${m.color}">${m.name[0]}</div>`).join('')}
+        ${allMembers.length>5?`<div class="pod-av" style="background:var(--text-faint)">+${allMembers.length-5}</div>`:''}
+        <span class="pod-member-names">${allMembers.map(m=>m.name).join(', ')}</span>
+      </div>
+      <div class="pod-footer">
+        <button class="btn-chat" onclick="openPodChat(${podIdx})">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Group Chat
+        </button>
+        <button class="btn-meet" onclick="window.open('${p.meet}','_blank')">
+          <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>Join Call
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── CHAT MODAL ──
+let chatPendingFiles = []; // files pending send in pod chat
+
+function handleChatFileSelect(e) {
+  const files = Array.from(e.target.files);
+  files.forEach(file => {
+    if (file.size > MAX_FILE_BYTES) { toast(`"${file.name}" is too large. Max 5MB per file.`); return; }
+    const reader = new FileReader();
+    reader.onload = ev => {
+      chatPendingFiles.push({name:sanitize(file.name), type:file.type, dataUrl:ev.target.result});
+      renderChatAttachPreview();
+    };
+    reader.readAsDataURL(file);
+  });
+  e.target.value = '';
+}
+
+function renderChatAttachPreview() {
+  const wrap = document.getElementById('chat-attach-preview'); if (!wrap) return;
+  if (!chatPendingFiles.length) { wrap.style.display='none'; wrap.innerHTML=''; return; }
+  wrap.style.display = 'block';
+  wrap.innerHTML = `<div class="chat-attach-preview-inner">${chatPendingFiles.map((f,i) =>
+    f.type.startsWith('image/')
+      ? `<div style="position:relative"><img src="${f.dataUrl}" style="width:60px;height:48px;object-fit:cover;border-radius:7px;border:1px solid var(--border)"/><button onclick="removeChatFile(${i})" style="position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:50%;background:rgba(60,20,40,.7);color:white;border:none;cursor:pointer;font-size:9px">✕</button></div>`
+      : `<div style="position:relative;display:flex;align-items:center;gap:4px;background:var(--pink);border:1px solid var(--border);border-radius:7px;padding:5px 8px;font-size:11px;color:var(--text-muted);max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">📄 ${f.name}<button onclick="removeChatFile(${i})" style="margin-left:4px;background:none;border:none;cursor:pointer;color:var(--text-faint);font-size:12px;flex-shrink:0">✕</button></div>`
+  ).join('')}</div>`;
+}
+
+function removeChatFile(i) { chatPendingFiles.splice(i,1); renderChatAttachPreview(); }
+
+function renderChat(pid) {
+  const isHost = role==='host';
+  const me = isHost ? 'You (Host)' : (currentUser.name||MEMBER_NAME);
+  const msgs = podChats[pid]||[];
+  document.getElementById('chat-messages').innerHTML = msgs.map((m,idx)=>{
+    const mine = m.author===me;
+    const filesHtml = (m.files||[]).map(f =>
+      f.type.startsWith('image/')
+        ? `<img class="msg-img" src="${f.dataUrl}" alt="${f.name}" onclick="openLightbox('${f.dataUrl}')"/>`
+        : `<div class="msg-doc" onclick="window.open('${f.dataUrl}')"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>${f.name}</div>`
+    ).join('');
+    // Clicking other person's avatar/name opens a DM
+    const avClick = mine ? '' : `onclick="event.stopPropagation();dmFromPod('${m.author}','${m.color||'#e88faa'}')" title="Message ${m.author} privately"`;
+    return `<div class="msg ${mine?'me':''}">
+      <div class="msg-av ${mine?'':'msg-av-clickable'}" style="background:${m.color||'#a84f6a'}" ${avClick}>${m.author[0]}</div>
+      <div class="msg-bubble">
+        ${!mine?`<div class="msg-name" style="cursor:pointer" onclick="dmFromPod('${sanitize(m.author)}','${m.color||'#e88faa'}')" title="Message privately">${sanitize(m.author)} <span style="font-size:10px;color:var(--text-faint);font-weight:400">· tap to DM</span></div>`:''}
+        ${m.text?`<div class="msg-text">${sanitize(m.text)}</div>`:''}
+        ${filesHtml}
+        <div class="msg-time">${sanitize(m.time)}${m.edited?' · edited':''}</div>
+        ${mine?`<div class="msg-actions">
+          ${m.text?`<button class="msg-act-btn edit-btn" onclick="editMsg(${pid},${idx})">✏️ Edit</button>`:''}
+          <button class="msg-act-btn del-btn" onclick="deleteMsg(${pid},${idx})">🗑 Delete</button>
+        </div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+  const el=document.getElementById('chat-messages');el.scrollTop=el.scrollHeight;
+}
+
+function sendChat() {
+  if (activePod===null) return;
+  const inp = document.getElementById('chat-input');
+  const txt = inp.value.trim();
+  if (!txt && !chatPendingFiles.length) return;
+  const now = new Date(); const pid = PODS[activePod].id;
+  const isHost = role==='host';
+  const time = now.getHours()+':'+String(now.getMinutes()).padStart(2,'0');
+  podChats[pid].push({
+    author: isHost?'You (Host)':(currentUser.name||MEMBER_NAME),
+    color: isHost?'#a84f6a':MEMBER_COLOR,
+    text: txt, time, mine: true,
+    files: [...chatPendingFiles]
+  });
+  chatPendingFiles = [];
+  renderChatAttachPreview();
+  renderChat(pid);
+  inp.value='';
+  scheduleBackendSave();
+}
+
+function switchChatTab(tab) {
+  const chatPanel    = document.getElementById('chat-panel');
+  const membersPanel = document.getElementById('members-panel');
+  const tabChat      = document.getElementById('tab-chat');
+  const tabMembers   = document.getElementById('tab-members');
+  if (!chatPanel || !membersPanel) return;
+
+  if (tab === 'chat') {
+    chatPanel.style.display    = 'block';
+    membersPanel.style.display = 'none';
+    tabChat.classList.add('active');
+    tabMembers.classList.remove('active');
+  } else {
+    chatPanel.style.display    = 'none';
+    membersPanel.style.display = 'block';
+    tabChat.classList.remove('active');
+    tabMembers.classList.add('active');
+    renderPodMembersPanel();
+  }
+}
+
+function renderPodMembersPanel() {
+  if (activePod === null) return;
+  const p = PODS[activePod];
+  const isHost = role === 'host';
+  const me = isHost ? 'You (Host)' : (currentUser.name || MEMBER_NAME);
+
+  // Build full members list: host + all pod members
+  const allMembers = [
+    { name: 'You (Host)', role: 'Host & Community Leader', color: '#a84f6a', isHost: true },
+    ...p.members.map(m => ({ ...m, isHost: false }))
+  ];
+
+  const el = document.getElementById('pod-members-list');
+  el.innerHTML = allMembers.map(m => {
+    const isMe = m.name === me || (isHost && m.isHost);
+    return `<div class="pod-member-row" onclick="${isMe ? '' : `dmFromPod('${m.name}','${m.color}')`}" style="${isMe ? 'opacity:.7;cursor:default' : ''}">
+      <div class="pod-member-row-av" style="background:${m.color}">${m.name[0]}</div>
+      <div class="pod-member-row-info">
+        <div class="pod-member-row-name">${m.name}${isMe ? ' <span style="font-size:10px;color:var(--text-faint)">(you)</span>' : ''}</div>
+        <div class="pod-member-row-role">${m.role}</div>
+      </div>
+      ${!isMe ? `<button class="pod-member-row-msg" onclick="event.stopPropagation();dmFromPod('${m.name}','${m.color}')">💌 Message</button>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function dmFromPod(name, color) {
+  // Close pod chat modal, open DM with that person
+  closeModalDirect();
+  openDMWith(name, color, '');
+}
+
+function openPodChat(idx) {
+  activePod = idx; const p = PODS[idx];
+  document.getElementById('modal-title').textContent = p.name;
+  document.getElementById('modal-icon').textContent = p.icon;
+  if (!podChats[p.id]) podChats[p.id] = SMSG.map(m=>({...m}));
+  chatPendingFiles = [];
+  renderChatAttachPreview();
+  renderChat(p.id);
+  // Always start on chat tab
+  switchChatTab('chat');
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function openMeet(){if(activePod!==null)window.open(PODS[activePod].meet,'_blank')}
+function closeModal(e){if(e.target===document.getElementById('modal-overlay'))closeModalDirect()}
+function closeModalDirect(){document.getElementById('modal-overlay').classList.remove('open');activePod=null}
+
+// ── UPDATES & VIDEOS ──
+let updatePendingFile = null;   // {name, type, dataUrl}
+let updatePendingThumb = null;  // {dataUrl} for custom thumbnail
+let updateType = 'New Video';
+
+// Convert UPDATES seed data to full objects on first run
+let UPDATES_DATA = null;
+function getUpdatesData() {
+  if (!UPDATES_DATA) {
+    UPDATES_DATA = UPDATES.map((u,i) => ({
+      id: 100+i, tag: u.tag, title: u.title,
+      desc: '', date: u.date,
+      emoji: u.emoji, bg: u.bg,
+      file: null, thumb: null
+    }));
+  }
+  return UPDATES_DATA;
+}
+
+function setUpdateType(tag, btn) {
+  updateType = tag;
+  document.querySelectorAll('.utype-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // Show/hide file zone based on type
+  const fileSection  = document.getElementById('upd-file-section');
+  const thumbSection = document.getElementById('upd-thumb-section');
+  const textOnly = (tag === 'Announcement');
+  if (fileSection)  fileSection.style.display  = textOnly ? 'none' : 'block';
+  if (thumbSection) thumbSection.style.display = textOnly ? 'none' : 'block';
+  // Update placeholder text
+  const titleInp = document.getElementById('upd-title');
+  const descInp  = document.getElementById('upd-desc');
+  const placeholders = {
+    'New Video':    {title:'e.g. How to Price Your Services', desc:'What will members learn from this video?'},
+    'Resource':     {title:'e.g. 30 Lead Gen DM Templates', desc:'Describe what this resource includes…'},
+    'Training':     {title:'e.g. Discovery Call Masterclass', desc:'What does this training cover?'},
+    'Workshop':     {title:'e.g. Build Your Offer in 5 Days', desc:'What will members do in this workshop?'},
+    'Announcement': {title:'e.g. Welcome to Yellow Circle!', desc:'Share your announcement with the community…'},
+    'Document':     {title:'e.g. Client Contract Template', desc:'What is this document for?'},
+  };
+  const p = placeholders[tag] || placeholders['New Video'];
+  if (titleInp) titleInp.placeholder = p.title;
+  if (descInp)  descInp.placeholder  = p.desc;
+}
+
+function handleUpdateFile(e) {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    updatePendingFile = { name: file.name, type: file.type, dataUrl: ev.target.result };
+    renderUpdateFilePreview();
+  };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+}
+
+function handleUpdateThumb(e) {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    updatePendingThumb = { dataUrl: ev.target.result };
+    renderUpdateThumbPreview();
+  };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+}
+
+function renderUpdateFilePreview() {
+  const el = document.getElementById('update-file-preview'); if (!el) return;
+  if (!updatePendingFile) { el.innerHTML=''; return; }
+  const isVid = updatePendingFile.type.startsWith('video/');
+  const isImg = updatePendingFile.type.startsWith('image/');
+  const icon = isVid ? '🎬' : isImg ? '🖼' : '📄';
+  el.innerHTML = `<div class="updates-file-preview">
+    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    <span class="updates-file-name">${icon} ${updatePendingFile.name}</span>
+    <button class="updates-file-rm" onclick="updatePendingFile=null;renderUpdateFilePreview()">✕</button>
+  </div>`;
+}
+
+function renderUpdateThumbPreview() {
+  const el = document.getElementById('update-thumb-preview'); if (!el) return;
+  if (!updatePendingThumb) { el.innerHTML=''; return; }
+  el.innerHTML = `<div style="position:relative;display:inline-block;margin-bottom:10px">
+    <img src="${updatePendingThumb.dataUrl}" style="width:120px;height:80px;object-fit:cover;border-radius:8px;border:1px solid var(--border)"/>
+    <button style="position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:rgba(60,20,40,.7);color:white;border:none;cursor:pointer;font-size:11px" onclick="updatePendingThumb=null;renderUpdateThumbPreview()">✕</button>
+  </div>`;
+}
+
+function publishUpdate() {
+  const title = document.getElementById('upd-title').value.trim();
+  const desc  = document.getElementById('upd-desc').value.trim();
+  if (!title) { toast('Please add a title 🌸'); return; }
+  const data = getUpdatesData();
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  const EMOJIS = {'New Video':'🎬','Resource':'📋','Training':'🎙','Workshop':'✨','Announcement':'📢','Document':'📄'};
+  const BGRADS = {
+    'New Video':'linear-gradient(135deg,#fce4ef,#f9d0e3)',
+    'Resource':'linear-gradient(135deg,#e8f5ee,#d0f0e0)',
+    'Training':'linear-gradient(135deg,#fff3e0,#ffe0b0)',
+    'Workshop':'linear-gradient(135deg,#ede8ff,#ddd0ff)',
+    'Announcement':'linear-gradient(135deg,#e8eeff,#d0d8ff)',
+    'Document':'linear-gradient(135deg,#f5e8f5,#ead0ea)',
+  };
+  data.unshift({
+    id: Date.now(), tag: updateType, title,
+    desc, date: dateStr,
+    emoji: EMOJIS[updateType]||'📌',
+    bg: BGRADS[updateType]||'linear-gradient(135deg,#fce4ef,#f9d0e3)',
+    file: updatePendingFile,
+    thumb: updatePendingThumb
+  });
+  // Reset form
+  document.getElementById('upd-title').value = '';
+  document.getElementById('upd-desc').value = '';
+  updatePendingFile = null; updatePendingThumb = null;
+  renderUpdateFilePreview(); renderUpdateThumbPreview();
+  renderUpdates();
+  scheduleBackendSave();
+  toast('Published! 🎬');
+}
+
+function editUpdate(id) {
+  const data = getUpdatesData();
+  const item = data.find(u => u.id === id); if (!item) return;
+  ycPrompt('Edit title', item.title, (newTitle) => {
+    if (newTitle) {
+      item.title = newTitle;
+      renderUpdates();
+      toast('Updated ✏️');
+      scheduleBackendSave();
+    }
+  });
+}
+
+function deleteUpdate(id) {
+  ycConfirm('Delete this content?', 'This cannot be undone.', (confirmed) => {
+    if (confirmed) {
+      const data = getUpdatesData();
+      const idx = data.findIndex(u => u.id === id); if (idx>-1) data.splice(idx,1);
+      renderUpdates(); toast('Deleted 🗑'); scheduleBackendSave();
+    }
+  });
+}
+
+function openUpdateFile(dataUrl) {
+  if (!dataUrl) return;
+  window.open(dataUrl, '_blank');
+}
+
+function renderUpdates() {
+  const isHost = role === 'host';
+  const data = getUpdatesData();
+
+  // Upload form — host only
+  const uploadArea = document.getElementById('updates-upload-area');
+  if (uploadArea) {
+    uploadArea.innerHTML = isHost ? `<div class="updates-upload-box">
+      <div class="updates-upload-title">📤 Publish new content</div>
+      <div class="updates-type-row">
+        ${['New Video','Resource','Training','Workshop','Announcement','Document'].map(t=>
+          `<button class="utype-btn ${t===updateType?'active':''}" onclick="setUpdateType('${t}',this)">${t}</button>`
+        ).join('')}
+      </div>
+      <div class="updates-form-grid">
+        <div>
+          <label class="updates-label">Title *</label>
+          <input class="updates-input" id="upd-title" placeholder="e.g. How to Price Your Services"/>
+        </div>
+        <div>
+          <label class="updates-label">Description <span style="font-weight:400;color:var(--text-faint)">(optional)</span></label>
+          <input class="updates-input" id="upd-desc" placeholder="What will members learn from this?"/>
+        </div>
+      </div>
+      <div id="upd-file-section" style="display:${updateType==='Announcement'?'none':'block'}">
+        <div class="updates-form-full">
+          <label class="updates-label">Upload file <span style="font-weight:400;color:var(--text-faint)">(video, image, PDF, doc…)</span></label>
+          <div class="updates-file-zone" onclick="document.getElementById('update-file-input').click()"
+            ondragover="event.preventDefault();this.classList.add('dragover')"
+            ondragleave="this.classList.remove('dragover')"
+            ondrop="event.preventDefault();this.classList.remove('dragover');handleUpdateFileDrop(event)">
+            <svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+            <p>Click to upload or drag &amp; drop</p>
+            <span>Video, image, PDF, Word, PowerPoint, Excel…</span>
+          </div>
+          <div id="update-file-preview"></div>
+        </div>
+      </div>
+      <div id="upd-thumb-section" style="display:${updateType==='Announcement'?'none':'block'}">
+        <div class="updates-form-full">
+          <label class="updates-label">Custom thumbnail <span style="font-weight:400;color:var(--text-faint)">(optional)</span></label>
+          <div id="update-thumb-preview"></div>
+          <label class="upload-btn" onclick="document.getElementById('update-thumb-input').click()">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Add thumbnail image
+          </label>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-top:12px">
+        <button class="btn-publish" onclick="publishUpdate()">Publish →</button>
+      </div>
+    </div>` : '';
+  }
+
+  // Content list
+  const grid = document.getElementById('updates-grid');
+  if (!data.length) {
+    grid.innerHTML = `<div style="text-align:center;padding:44px 20px;color:var(--text-faint);font-size:14px">
+      <div style="font-size:40px;margin-bottom:12px">🎬</div>
+      No content published yet — add your first update above!
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = `<div class="updates-list">${data.map(u => {
+    const hasFile = u.file && u.file.dataUrl;
+    const isVideo = hasFile && u.file.type.startsWith('video/');
+    const isImg   = hasFile && u.file.type.startsWith('image/');
+    const isDoc   = hasFile && !isVideo && !isImg;
+    const thumbSrc = u.thumb?.dataUrl || (isImg ? u.file.dataUrl : null);
+
+    const thumbHTML = thumbSrc
+      ? `<img src="${thumbSrc}" alt="${u.title}" style="width:100%;height:100%;object-fit:cover"/>`
+      : `<span class="update-thumb-emoji">${u.emoji}</span>`;
+
+    const overlayHTML = (hasFile && (isVideo || isImg || isDoc)) ? `
+      <div class="update-play-overlay" onclick="openUpdateFile('${u.file.dataUrl}')">
+        <div class="update-play-circle">
+          <svg viewBox="0 0 24 24" fill="var(--rose-dark)"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+      </div>` : '';
+
+    const fileLink = isDoc ? `
+      <a class="update-file-link" onclick="openUpdateFile('${u.file.dataUrl}')">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        ${u.file.name}
+      </a>` : '';
+
+    return `<div class="update-item">
+      <div class="update-item-inner">
+        <div class="update-thumb-col" style="${!thumbSrc?`background:${u.bg}`:''}">
+          ${thumbHTML}${overlayHTML}
+        </div>
+        <div class="update-body-col">
+          <div class="update-tag">${u.tag}</div>
+          <div class="update-title">${u.title}</div>
+          ${u.desc ? `<div class="update-desc">${u.desc}</div>` : ''}
+          <div class="update-meta-row">
+            <span class="update-date">📅 ${u.date}</span>
+            ${fileLink}
+          </div>
+        </div>
+        ${isHost ? `<div class="update-actions-col">
+          <button class="btn-update-act" onclick="editUpdate(${u.id})">✏️ Edit</button>
+          <button class="btn-update-act danger" onclick="deleteUpdate(${u.id})">🗑 Delete</button>
+        </div>` : ''}
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function handleUpdateFileDrop(e) {
+  const file = e.dataTransfer.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    updatePendingFile = { name: file.name, type: file.type, dataUrl: ev.target.result };
+    renderUpdateFilePreview();
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── Q&A ──
+function renderQA() {
+  const isHost = role==='host';
+  const unanswered = QA.filter(q=>!q.answer).length;
+  const badge = document.getElementById('qa-badge');
+  if (badge) { badge.style.display = isHost&&unanswered>0?'inline':'none'; badge.textContent=unanswered; }
+
+  // Member sees ask box; host does not (host answers inline)
+  document.getElementById('qa-ask-box').innerHTML = !isHost ? `<div class="qa-compose">
+    <label>Ask your host a question →</label>
+    <textarea id="qa-input" placeholder="What's on your mind? No question is too small…" style="min-height:62px"></textarea>
+    <div style="display:flex;justify-content:flex-end;margin-top:9px">
+      <button class="btn-post" onclick="submitQuestion()">Submit →</button>
+    </div>
+  </div>` : `<div style="margin-bottom:16px;font-size:13px;color:var(--text-muted);background:var(--white);border:1px solid var(--border);border-radius:10px;padding:12px 16px;">
+    <strong style="color:var(--text-head)">Host view</strong> — Answer questions below. Members see your replies instantly.
+    ${unanswered>0?`<span style="margin-left:10px;background:#fde8ef;color:#b3476a;font-size:11px;font-weight:700;padding:2px 9px;border-radius:10px">${unanswered} awaiting answer</span>`:''}
+  </div>`;
+
+  document.getElementById('qa-list').innerHTML = QA.map((q,i)=>`
+    <div class="qa-item">
+      <div class="qa-question">${q.q}</div>
+      <div class="qa-asker">Asked by ${q.asker}</div>
+      ${q.answer
+        ?`<div class="qa-answer"><div class="qa-answer-label">Host's Answer</div><div class="qa-answer-text">${q.answer}</div></div>`
+        : isHost
+          ?`<div class="qa-unanswered" style="margin-bottom:10px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Awaiting your answer</div>
+            <div class="qa-answer-form"><textarea id="ans-${i}" placeholder="Write your answer here…" style="min-height:56px"></textarea>
+            <button class="btn-answer" onclick="answerQ(${i})">Post Answer →</button></div>`
+          :`<div class="qa-unanswered"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Your host will answer soon…</div>`
+      }
+    </div>`).join('');
+}
+function submitQuestion() {
+  const txt=document.getElementById('qa-input').value.trim();if(!txt)return;
+  QA.unshift({q:txt,asker:MEMBER_NAME+' · Just now',answer:null});
+  renderQA();document.getElementById('qa-input').value='';toast('Question submitted 💌');scheduleBackendSave();
+}
+function answerQ(i) {
+  const inp=document.getElementById('ans-'+i);if(!inp)return;
+  const txt=inp.value.trim();if(!txt)return;
+  QA[i].answer=txt;renderQA();toast('Answer posted ✨');scheduleBackendSave();
+}
+
+// ── ADMIN AUTH (SHA-256 + 2FA) ──
+let adminUnlocked = false;
+let loginAttempts = 0;
+const MAX_ATTEMPTS = 3;
+let otpCode = '';
+let adminEmail = '';
+
+// SHA-256 hash via Web Crypto API
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+function getStoredHash() { try { return sessionStorage.getItem('yc_adm_h'); } catch(e){return null;} }
+function getStoredEmail(){ try { return sessionStorage.getItem('yc_adm_e'); } catch(e){return null;} }
+
+function showAdminAuth() {
+  const hash = getStoredHash();
+  const setupEl = document.getElementById('admin-setup');
+  const loginEl = document.getElementById('admin-login');
+  const twoFAEl = document.getElementById('admin-2fa');
+  const panelEl = document.getElementById('admin-panel-content');
+
+  const applyUI = (hasLocalHash, configuredOnServer) => {
+    const showSetup = !hasLocalHash && !configuredOnServer;
+    const showLogin = hasLocalHash || configuredOnServer;
+
+    if (setupEl) setupEl.style.display = showSetup ? 'flex' : 'none';
+    if (loginEl) loginEl.style.display = showLogin ? 'flex' : 'none';
+    if (twoFAEl) twoFAEl.style.display = 'none';
+    if (panelEl) panelEl.style.display = 'none';
+
+    setTimeout(() => {
+      if (showSetup) document.getElementById('setup-pw')?.focus();
+      else document.getElementById('login-pw')?.focus();
+    }, 100);
+  };
+
+  if (hash) {
+    applyUI(true, true);
+    return;
+  }
+
+  // If no local hash exists, check if the server has an admin password configured.
+  (async () => {
+    try {
+      const r = await fetch('/api/admin/configured', { method: 'GET', cache: 'no-store' });
+      if (!r.ok) return applyUI(false, false);
+      const j = await r.json();
+      applyUI(false, !!j.configured);
+    } catch {
+      applyUI(false, false);
+    }
+  })();
+}
+
+// Password strength checker
+function checkStrength() {
+  const pw = document.getElementById('setup-pw').value;
+  const fill = document.getElementById('strength-fill');
+  const label = document.getElementById('strength-label');
+  let score = 0;
+  if (pw.length >= 8) score++;
+  if (/[0-9]/.test(pw)) score++;
+  if (/[^a-zA-Z0-9]/.test(pw)) score++;
+  if (pw.length >= 12) score++;
+  const levels = [
+    {w:'0%',  c:'transparent', t:''},
+    {w:'30%', c:'#e24b4a', t:'Weak'},
+    {w:'55%', c:'#ef9f27', t:'Fair'},
+    {w:'78%', c:'#639922', t:'Good'},
+    {w:'100%',c:'#1d9e75', t:'Strong'},
+  ];
+  const l = levels[score];
+  fill.style.width = l.w; fill.style.background = l.c;
+  label.textContent = l.t; label.style.color = l.c;
+}
+
+function toggleEye(id, el) {
+  const inp = document.getElementById(id);
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  el.textContent = inp.type === 'password' ? '👁' : '🙈';
+}
+
+function pwValid(pw) {
+  return pw.length >= 8 && /[0-9]/.test(pw) && /[^a-zA-Z0-9]/.test(pw);
+}
+
+async function saveAdminPassword() {
+  const pw    = document.getElementById('setup-pw').value;
+  const pw2   = document.getElementById('setup-pw2').value;
+  const email = document.getElementById('setup-email').value.trim();
+  const err   = document.getElementById('setup-error');
+  err.textContent = '';
+  if (!pwValid(pw)) { err.textContent = 'Password needs 8+ chars, a number, and a special character.'; return; }
+  if (pw !== pw2)   { err.textContent = 'Passwords do not match.'; return; }
+  if (!email.includes('@')) { err.textContent = 'Enter a valid email address.'; return; }
+  const hash = await sha256(pw);
+  try {
+    const r = await fetch('/api/admin/setPassword', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ hash, email, allowOverwrite: false })
+    });
+    if (!r.ok) {
+      const txt = await r.text().catch(() => '');
+      err.textContent = txt || 'Failed to set admin password.';
+      return;
+    }
+
+    sessionStorage.setItem('yc_adm_h', hash);
+    sessionStorage.setItem('yc_adm_e', email);
+    adminEmail = email;
+
+    toast('Password set! Now logging you in 🔐');
+    setTimeout(()=>{ sendOTP(); showStep('admin-2fa'); }, 600);
+  } catch (e2) {
+    err.textContent = 'Failed to reach backend.';
+  }
+}
+
+async function attemptLogin() {
+  if (loginAttempts >= MAX_ATTEMPTS) {
+    document.getElementById('login-error').textContent = 'Too many failed attempts. Refresh to try again.';
+    return;
+  }
+  const pw   = document.getElementById('login-pw').value;
+  const hash = await sha256(pw);
+
+  try {
+    const r = await fetch('/api/admin/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ hash })
+    });
+    const j = await r.json().catch(() => ({}));
+    if (r.ok && j.ok) {
+      loginAttempts = 0;
+      adminEmail = j.email || '';
+      try { sessionStorage.setItem('yc_adm_h', hash); } catch(e){}
+      try { sessionStorage.setItem('yc_adm_e', adminEmail); } catch(e){}
+      document.getElementById('login-pw').value = '';
+      sendOTP();
+      showStep('admin-2fa');
+      return;
+    }
+  } catch (e) {
+    // fall through to wrong password UX
+  }
+
+  loginAttempts++;
+  const left = MAX_ATTEMPTS - loginAttempts;
+  document.getElementById('login-error').textContent = 'Wrong password.';
+  document.getElementById('login-attempts').textContent = left > 0
+    ? `${left} attempt${left!==1?'s':''} remaining`
+    : 'Account locked — refresh page to reset.';
+  document.getElementById('login-pw').value = '';
+  document.getElementById('login-pw').focus();
+}
+
+function sendOTP() {
+  otpCode = String(Math.floor(100000 + Math.random() * 900000));
+  const emailDisplay = adminEmail ? ` to ${adminEmail}` : '';
+  // NOTE: In production, remove the code display below and send via real email/SMS
+  document.getElementById('tfa-sub').textContent = `A 6-digit code has been sent${emailDisplay}. Check your email. (Demo only — code: ${otpCode})`;
+  ['o1','o2','o3','o4','o5','o6'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  setTimeout(()=>document.getElementById('o1').focus(), 100);
+}
+
+function otpNext(el, nxt) { if (el.value && nxt) document.getElementById(nxt).focus(); }
+function otpBack(e, el, prv) { if (e.key==='Backspace' && !el.value && prv) document.getElementById(prv).focus(); }
+
+function verifyOTP() {
+  const entered = ['o1','o2','o3','o4','o5','o6'].map(id=>document.getElementById(id).value).join('');
+  if (entered === otpCode) {
+    adminUnlocked = true;
+    showStep('admin-panel-content');
+    renderAdmin();
+    toast('Welcome to Admin Panel 🔐');
+  } else {
+    document.getElementById('tfa-error').textContent = 'Incorrect code — try again or resend.';
+    ['o1','o2','o3','o4','o5','o6'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+    document.getElementById('o1').focus();
+  }
+}
+
+function showStep(id) {
+  ['admin-setup','admin-login','admin-2fa','admin-panel-content'].forEach(s=>{
+    const el = document.getElementById(s);
+    if (el) el.style.display = s===id ? (s==='admin-panel-content'?'block':'flex') : 'none';
+  });
+}
+
+async function changeAdminPassword() {
+  const cur = document.getElementById('chg-cur').value;
+  const nw  = document.getElementById('chg-new').value;
+  const con = document.getElementById('chg-con').value;
+  const err = document.getElementById('chg-error');
+  err.textContent = '';
+  const curHash = await sha256(cur);
+  if (!pwValid(nw)) { err.textContent = 'New password needs 8+ chars, a number, and a special character.'; return; }
+  if (nw !== con)   { err.textContent = 'New passwords do not match.'; return; }
+
+  try {
+    const verifyR = await fetch('/api/admin/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ hash: curHash })
+    });
+    const vj = await verifyR.json().catch(() => ({}));
+    if (!verifyR.ok || !vj.ok) { err.textContent = 'Current password is incorrect.'; return; }
+
+    const newHash = await sha256(nw);
+    const setR = await fetch('/api/admin/setPassword', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ hash: newHash, email: (vj.email || adminEmail), allowOverwrite: true })
+    });
+    if (!setR.ok) { err.textContent = 'Failed to update password.'; return; }
+
+    try { sessionStorage.setItem('yc_adm_h', newHash); } catch(e){}
+    adminEmail = (vj.email || adminEmail);
+
+    document.getElementById('chg-cur').value = '';
+    document.getElementById('chg-new').value = '';
+    document.getElementById('chg-con').value = '';
+    toast('Password updated successfully ✅');
+  } catch {
+    err.textContent = 'Failed to reach backend.';
+  }
+}
+
+// ── EDIT / DELETE — COMMENTS ──
+function addComment(i){
+  const inp=document.getElementById('ci-'+i);if(!inp)return;
+  const txt=inp.value.trim();if(!txt)return;
+  const isHost=role==='host';
+  const author=isHost?'You (Host)':(currentUser.name||MEMBER_NAME);
+  const color=isHost?'#a84f6a':MEMBER_COLOR;
+  POSTS[i].comments.push({author,color,text:txt,mine:true});
+  renderFeed();toast('Comment added 💬');scheduleBackendSave();
+}
+function editComment(postIdx, cmtIdx) {
+  const c = POSTS[postIdx]?.comments[cmtIdx];
+  if (!c) return;
+  ycPrompt('Edit your comment', c.text, (newText) => {
+    if (newText) {
+      c.text = newText;
+      c.edited = true;
+      renderFeed();
+      toast('Comment updated ✏️');
+      scheduleBackendSave();
+    }
+  });
+}
+function deleteComment(postIdx, cmtIdx) {
+  if (!POSTS[postIdx]) return;
+  ycConfirm('Delete comment?', 'This cannot be undone.', (confirmed) => {
+    if (confirmed) {
+      POSTS[postIdx].comments.splice(cmtIdx, 1);
+      renderFeed();
+      toast('Comment deleted');
+      scheduleBackendSave();
+    }
+  });
+}
+
+// ── EDIT / DELETE — CHAT MESSAGES ──
+function editMsg(pid, idx) {
+  const msgs = podChats[pid]; if (!msgs || !msgs[idx]) return;
+  ycPrompt('Edit your message', msgs[idx].text || '', (newText) => {
+    if (newText) {
+      msgs[idx].text = newText;
+      msgs[idx].edited = true;
+      renderChat(pid);
+      toast('Message updated ✏️');
+      scheduleBackendSave();
+    }
+  });
+}
+function deleteMsg(pid, idx) {
+  const msgs = podChats[pid]; if (!msgs) return;
+  ycConfirm('Delete message?', 'This cannot be undone.', (confirmed) => {
+    if (confirmed) {
+      msgs.splice(idx, 1);
+      renderChat(pid);
+      toast('Message deleted');
+      scheduleBackendSave();
+    }
+  });
+}
+function createPod() {
+  const icon=document.getElementById('new-pod-emoji').value.trim()||ICONS[PODS.length%ICONS.length];
+  const name=document.getElementById('new-pod-name').value.trim();
+  const meet=document.getElementById('new-pod-meet').value.trim()||'https://meet.google.com';
+  if(!name){toast('Please enter a pod name');return;}
+  PODS.push({id:nextId++,name,icon,bg:PASTEL[PODS.length%PASTEL.length],meet,members:[]});
+  document.getElementById('new-pod-emoji').value='';
+  document.getElementById('new-pod-name').value='';
+  document.getElementById('new-pod-meet').value='';
+  renderAdmin();renderPods();toast('Pod created: '+name+' '+icon);scheduleBackendSave();
+}
+function deletePod(id) {
+  ycConfirm('Delete this pod?', 'This cannot be undone.', (confirmed) => {
+    if (confirmed) {
+      PODS=PODS.filter(p=>p.id!==id);renderAdmin();renderPods();toast('Pod deleted');
+      scheduleBackendSave();
+    }
+  });
+}
+function addMember(podId) {
+  const ni=document.getElementById('nm-'+podId);
+  const ri=document.getElementById('nr-'+podId);
+  const name=ni?ni.value.trim():'';
+  const role_val=ri?ri.value.trim():'Member';
+  if(!name){toast('Enter a member name');return;}
+  const pod=PODS.find(p=>p.id===podId);if(!pod)return;
+  if(pod.members.length>=4){toast('Max 4 members per pod (5 total with you) 🌸');return;}
+  if(pod.members.find(m=>m.name.toLowerCase()===name.toLowerCase())){toast('Already in this pod');return;}
+  pod.members.push({name,role:role_val||'Member',color:AVC[pod.members.length%AVC.length]});
+  if(ni)ni.value='';if(ri)ri.value='';
+  renderAdmin();renderPods();toast(name+' added to '+pod.name+' 🌸');scheduleBackendSave();
+}
+function removeMember(podId,mname) {
+  const pod=PODS.find(p=>p.id===podId);if(!pod)return;
+  pod.members=pod.members.filter(m=>m.name!==mname);
+  renderAdmin();renderPods();toast(mname+' removed');scheduleBackendSave();
+}
+function renderAdmin() {
+  const list=document.getElementById('admin-pods-list');
+  const empty=document.getElementById('admin-pods-empty');
+  if(!PODS.length){list.innerHTML='';empty.style.display='block';}
+  else {
+    empty.style.display='none';
+    list.innerHTML=PODS.map(p=>{
+      const tags=p.members.map(m=>`<div class="member-tag">
+        <div class="m-av" style="background:${m.color}">${m.name[0]}</div>
+        <span class="m-name">${m.name}</span><span style="color:var(--text-faint);font-size:11px"> · ${m.role}</span>
+        <span class="m-remove" onclick="removeMember(${p.id},'${m.name}')">×</span></div>`).join('');
+      return `<div class="admin-pod-row">
+        <div class="admin-pod-header">
+          <span class="admin-pod-icon">${p.icon}</span>
+          <span class="admin-pod-name">${p.name}</span>
+          <span style="font-size:11.5px;color:var(--text-faint);margin-right:8px">${p.members.length+1}/5 members</span>
+          <button class="btn-sm danger" onclick="deletePod(${p.id})">Delete</button>
+        </div>
+        <div class="admin-members-list">
+          <div class="member-tag host-tag"><div class="m-av" style="background:#a84f6a">Y</div><span class="m-name">You (Host)</span><span style="color:var(--text-faint);font-size:11px"> · always here</span></div>
+          ${tags}
+        </div>
+        ${p.members.length<4?`<div class="add-member-row">
+          <input type="text" id="nm-${p.id}" placeholder="Member name…" onkeydown="if(event.key==='Enter')addMember(${p.id})"/>
+          <input type="text" id="nr-${p.id}" placeholder="Their role…" style="max-width:150px" onkeydown="if(event.key==='Enter')addMember(${p.id})"/>
+          <button class="btn-sm" style="background:var(--rose-darker);color:white;border:none;padding:7px 15px" onclick="addMember(${p.id})">+ Add</button>
+        </div>`:`<div style="font-size:12px;color:var(--text-muted);font-style:italic;margin-top:6px">Pod is full (4/4 members + you)</div>`}
+      </div>`;
+    }).join('');
+  }
+  const allM=[];
+  PODS.forEach(p=>p.members.forEach(m=>allM.push({...m,pod:p.name,icon:p.icon})));
+  document.getElementById('members-tbody').innerHTML=!allM.length
+    ?'<tr><td colspan="3" style="text-align:center;color:var(--text-faint);padding:20px">No members added yet</td></tr>'
+    :allM.map(m=>`<tr>
+      <td><div style="display:flex;align-items:center;gap:8px"><div style="width:26px;height:26px;border-radius:50%;background:${m.color};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white">${m.name[0]}</div>${m.name}</div></td>
+      <td style="color:var(--text-muted)">${m.role}</td>
+      <td><span class="pod-chip">${m.icon} ${m.pod}</span></td></tr>`).join('');
+
+  // Who's joined table
+  const jt = document.getElementById('joined-tbody');
+  if (jt) {
+    jt.innerHTML = communityMembers.length
+      ? communityMembers.map(m=>`<tr>
+          <td><div style="display:flex;align-items:center;gap:8px">
+            <div style="width:26px;height:26px;border-radius:50%;background:#e88faa;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white">${m.name[0]}</div>${m.name}
+          </div></td>
+          <td style="color:var(--text-muted);font-size:12.5px">${m.gmail}</td>
+          <td style="color:var(--text-muted)">${m.profession}</td>
+          <td style="color:var(--text-faint);font-size:12px">${m.joinedAt}</td>
+        </tr>`).join('')
+      : '<tr><td colspan="4" style="text-align:center;color:var(--text-faint);padding:20px">No sign-ups yet</td></tr>';
+  }
+}
+
+// ── CREATE POD MODAL (from pods page) ──
+function openCreatePodModal() {
+  cpMembers=[]; cpPickedEmoji='🌸';
+  document.getElementById('cp-name').value='';
+  document.getElementById('cp-meet').value='';
+  document.getElementById('cp-new-name').value='';
+  document.getElementById('cp-new-role').value='';
+  document.querySelectorAll('.cp-emoji').forEach(e=>e.classList.remove('picked'));
+  document.querySelector('.cp-emoji[data-e="🌸"]').classList.add('picked');
+  renderCPChips();
+  document.getElementById('create-pod-overlay').classList.add('open');
+}
+function closeCPModal(e){if(e.target===document.getElementById('create-pod-overlay'))document.getElementById('create-pod-overlay').classList.remove('open')}
+function cpPickEmoji(el){document.querySelectorAll('.cp-emoji').forEach(e=>e.classList.remove('picked'));el.classList.add('picked');cpPickedEmoji=el.dataset.e;}
+function cpAddMember() {
+  if(cpMembers.length>=4){toast('Max 4 members per pod 🌸');return;}
+  const name=document.getElementById('cp-new-name').value.trim();
+  const r=document.getElementById('cp-new-role').value.trim();
+  if(!name){toast('Enter a member name');return;}
+  if(cpMembers.find(m=>m.name.toLowerCase()===name.toLowerCase())){toast('Already added');return;}
+  cpMembers.push({name,role:r||'Member',color:AVC[cpMembers.length%AVC.length]});
+  document.getElementById('cp-new-name').value='';
+  document.getElementById('cp-new-role').value='';
+  renderCPChips();
+}
+function cpRemoveMember(i){cpMembers.splice(i,1);renderCPChips();}
+function renderCPChips(){
+  document.getElementById('cp-chips').innerHTML=cpMembers.map((m,i)=>`
+    <div class="cp-chip">
+      <div class="cav" style="background:${m.color}">${m.name[0]}</div>
+      ${m.name}${m.role?` <span style="color:var(--text-faint);font-size:11px">· ${m.role}</span>`:''}
+      <span class="crm" onclick="cpRemoveMember(${i})">×</span>
+    </div>`).join('');
+  document.getElementById('cp-slot-info').textContent=cpMembers.length+' / 4 members added';
+}
+function submitCreatePod() {
+  const name=document.getElementById('cp-name').value.trim();
+  if(!name){toast('Please enter a pod name 🌸');return;}
+  const meet=document.getElementById('cp-meet').value.trim()||'https://meet.google.com';
+  PODS.push({id:nextId++,name,icon:cpPickedEmoji,bg:PASTEL[PODS.length%PASTEL.length],meet,members:[...cpMembers]});
+  document.getElementById('create-pod-overlay').classList.remove('open');
+  renderPods();toast('Pod created: '+name+' '+cpPickedEmoji);scheduleBackendSave();
+}
+
+// ── WIN WALL ──
+function renderWinWall() {
+  const wins = POSTS.filter(p => p.type === 'Win 🏆');
+  const el = document.getElementById('win-wall-posts');
+  if (!wins.length) {
+    el.innerHTML = `<div style="text-align:center;padding:44px 20px;color:var(--text-faint);font-size:14px">
+      <div style="font-size:44px;margin-bottom:12px">🏆</div>
+      No wins posted yet — be the first to celebrate a victory!
+    </div>`;
+    return;
+  }
+  el.innerHTML = `<div class="win-banner">
+    <span style="font-size:26px">🎉</span>
+    <div class="win-banner-text">Every win shared here fuels the whole community. Keep going!</div>
+  </div>` + wins.map(p => `
+    <div class="win-post">
+      <div class="post-header">
+        <div class="post-avatar" style="background:${p.color}">${p.author[0]}</div>
+        <div class="post-meta">
+          <div class="post-author">${p.author} <span style="font-weight:400;font-size:11.5px;color:var(--text-faint)">${p.role}</span></div>
+          <div class="post-time">${p.time}</div>
+        </div>
+        <span class="post-type-badge badge-win">Win 🏆</span>
+      </div>
+      <div class="post-text">${p.text}</div>
+    </div>`).join('');
+}
+
+// ── MEMBERS DIRECTORY ──
+// Seed profile data for demo members
+const MEMBER_PROFILES = [
+  {name:'Luna K.',   role:'Graphic Designer',   color:'#e88faa', location:'London, UK',    business:'I run a personal branding studio for female coaches — helping them show up on Instagram and attract high-ticket clients.',   tags:['Goal-driven 🎯','Consistent ✅','Creative thinker 🎨'], pod:'The Bloom Pod'},
+  {name:'Maya R.',   role:'Content Writer',      color:'#c97896', location:'Toronto, Canada',business:'Content strategist specialising in long-form blogs and email sequences for SaaS brands.',                                    tags:['Honest & direct 💬','Action-taker ⚡','Positive energy 🌸'], pod:'The Bloom Pod'},
+  {name:'Jade S.',   role:'Coach',               color:'#a85c7a', location:'Sydney, Australia',business:'Mindset and business coach helping service providers charge premium prices and stop undervaluing themselves.',              tags:['Empathetic 💛','Calm under pressure 🌿','Big dreamer 🌙'], pod:'The Bloom Pod'},
+  {name:'Priya T.',  role:'Social Media Manager',color:'#d4a0b5', location:'Dubai, UAE',    business:'Social media manager for e-commerce brands — specialising in TikTok and Instagram Reels strategy.',                         tags:['Consistent ✅','Structured & organised 📋','Action-taker ⚡'], pod:'The Spark Pod'},
+  {name:'Chloe B.',  role:'Brand Manager',       color:'#b87090', location:'New York, USA', business:'Freelance brand strategist helping purpose-led startups build a cohesive visual and verbal identity.',                       tags:['Creative thinker 🎨','Empathetic 💛','Goal-driven 🎯'], pod:'The Spark Pod'},
+  {name:'Fiona L.',  role:'Copywriter',          color:'#e0a8bc', location:'Cape Town, SA', business:'Conversion copywriter for wellness and lifestyle brands — websites, sales pages and launch emails.',                         tags:['Honest & direct 💬','Big dreamer 🌙','Positive energy 🌸'], pod:'The Rise Pod'},
+];
+
+function renderMembersDirectory() {
+  const el = document.getElementById('members-directory-grid');
+  const isHost = role === 'host';
+  const myName = isHost ? 'You (Host)' : (currentUser.name || 'Luna K.');
+
+  // Merge seed profiles with anyone who joined via the form
+  const allProfiles = [...MEMBER_PROFILES];
+  communityMembers.forEach(m => {
+    if (!allProfiles.find(p => p.name === m.name)) {
+      allProfiles.push({
+        name: m.name, role: m.profession, color: AVC[allProfiles.length % AVC.length],
+        location: m.location || '—', business: m.business || 'New member — intro coming soon 🌸',
+        tags: m.partnerTags || [], pod: 'Unassigned'
+      });
+    }
+  });
+
+  el.innerHTML = `<div class="dir-grid">${allProfiles.map(m => {
+    const initials = m.name.split(' ').map(n=>n[0]).join('').slice(0,2);
+    const isMe = m.name === myName;
+    return `<div class="dir-card">
+      <div class="dir-card-top">
+        <div class="dir-av" style="background:${m.color}">${initials}</div>
+        <div>
+          <div class="dir-name">${m.name}${isMe ? ' <span style="font-size:10px;color:var(--rose-dark);font-family:Nunito,sans-serif">(you)</span>' : ''}</div>
+          <div class="dir-role">${m.role}</div>
+        </div>
+      </div>
+      ${m.location ? `<div class="dir-location">📍 ${m.location}</div>` : ''}
+      <div class="dir-business">${m.business}</div>
+      ${m.tags && m.tags.length ? `<div class="dir-tags">${m.tags.map(t=>`<span class="dir-tag">${t}</span>`).join('')}</div>` : ''}
+      <div class="dir-pod-badge">🌿 ${m.pod}</div>
+      ${!isMe ? `<div class="dir-actions">
+        <button class="btn-dm" onclick="openDMWith('${m.name}','${m.color}','${m.role}')">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Message
+        </button>
+      </div>` : ''}
+    </div>`;
+  }).join('')}
+
+  ${!isHost ? `<div class="dir-card" style="border:2px dashed var(--border);background:transparent;align-items:center;justify-content:center;text-align:center;padding:30px 20px;cursor:pointer;min-height:200px" onclick="openDMWith('Your Host','#a84f6a','Host &amp; Community Leader')">
+    <div style="font-size:36px;margin-bottom:10px">🌸</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:17px;color:var(--text-head);margin-bottom:6px">Your Host</div>
+    <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:14px">Have a question or need support? Send a private message directly to your host.</div>
+    <button class="btn-dm" style="width:auto;padding:8px 18px">💌 Message Host</button>
+  </div>` : ''}
+  </div>`;
+}
+
+// ── PRIVATE MESSAGES ──
+let dmThreads = {}; // { 'MemberName': [{author, text, time, mine}] }
+let activeDMName = null;
+
+// Pre-seed a demo message from host
+function initDMs() {
+  if (!dmThreads['Your Host']) {
+    dmThreads['Your Host'] = [{
+      author: 'Your Host', color: '#a84f6a', mine: false,
+      text: 'Hey! Welcome to Yellow Circle 🌸 Feel free to message me anytime — I\'m always here to help.',
+      time: 'Just now'
+    }];
+  }
+}
+
+function openDMWith(name, color, roleLabel) {
+  if (!dmThreads[name]) dmThreads[name] = [];
+  activeDMName = name;
+  // Close directory modal if open, navigate to messages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-dms').classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.textContent.includes('Messages')) n.classList.add('active');
+  });
+  document.getElementById('topbar-title').textContent = 'Messages';
+  renderTopbarRight('dms');
+  renderMessagesPage();
+  closeSidebar();
+}
+
+function renderMessagesPage() {
+  initDMs();
+  const isHost = role === 'host';
+
+  // Ensure host thread always exists for members
+  if (!isHost && !dmThreads['Your Host']) {
+    dmThreads['Your Host'] = [{
+      author:'Your Host', color:'#a84f6a', mine:false,
+      text:'Hey! Welcome to Yellow Circle 🌸 Feel free to message me anytime.',
+      time:'Just now'
+    }];
+  }
+
+  // Build thread list
+  const threadNames = Object.keys(dmThreads);
+  const threadListHTML = threadNames.length === 0
+    ? `<div style="padding:20px;font-size:13px;color:var(--text-faint);text-align:center">No conversations yet.<br>Message someone from the Members page!</div>`
+    : threadNames.map(name => {
+        const msgs = dmThreads[name];
+        const last = msgs[msgs.length - 1];
+        const col = last ? last.color : '#e88faa';
+        const initials = name.split(' ').map(n=>n[0]).join('').slice(0,2);
+        const isActive = name === activeDMName;
+        const isHostThread = name === 'Your Host';
+        return `<div class="msg-thread ${isActive?'active':''}" onclick="selectDMThread('${name}')">
+          <div class="msg-thread-av" style="background:${isHostThread?'#a84f6a':col}">${initials}</div>
+          <div class="msg-thread-info">
+            <div class="msg-thread-name">${name}${isHostThread?'<span class="msg-host-badge">Host</span>':''}</div>
+            <div class="msg-thread-preview">${last ? (last.text ? last.text.slice(0,36)+'…' : (last.files&&last.files.length?'📎 Attachment':'…')) : 'No messages yet'}</div>
+          </div>
+        </div>`;
+      }).join('');
+
+  document.getElementById('msg-thread-list').innerHTML = threadListHTML;
+
+  // Render chat area
+  if (!activeDMName || !dmThreads[activeDMName]) {
+    document.getElementById('msg-main').innerHTML = `<div class="msg-empty-chat">
+      <span>💌</span>Select a conversation or message someone from the Members page
+    </div>`;
+    return;
+  }
+
+  const msgs = dmThreads[activeDMName];
+  const myName = isHost ? 'You (Host)' : (currentUser.name || 'Luna K.');
+  const myColor = isHost ? '#a84f6a' : '#e88faa';
+  const otherColor = activeDMName === 'Your Host' ? '#a84f6a' : (MEMBER_PROFILES.find(p=>p.name===activeDMName)?.color || '#e88faa');
+  const otherInitials = activeDMName.split(' ').map(n=>n[0]).join('').slice(0,2);
+
+  document.getElementById('msg-main').innerHTML = `
+    <div class="msg-main-header">
+      <div class="dir-av" style="width:34px;height:34px;font-size:13px;background:${activeDMName==='Your Host'?'#a84f6a':otherColor}">${otherInitials}</div>
+      <div>
+        <div class="msg-main-name">${activeDMName}${activeDMName==='Your Host'?'<span class="msg-host-badge">Host</span>':''}</div>
+      </div>
+    </div>
+    <div class="msg-main-msgs" id="dm-msgs-area">
+      ${msgs.map((m,idx) => {
+        const mine = m.mine;
+        const filesHtml = (m.files||[]).map(f =>
+          f.type.startsWith('image/')
+            ? `<img class="msg-img" src="${f.dataUrl}" alt="${f.name}" onclick="openLightbox('${f.dataUrl}')"/>`
+            : `<div class="msg-doc" onclick="window.open('${f.dataUrl}')"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>${f.name}</div>`
+        ).join('');
+        return `<div class="msg ${mine?'me':''}">
+          <div class="msg-av" style="background:${mine?myColor:otherColor}">${mine?myName[0]:m.author[0]}</div>
+          <div class="msg-bubble">
+            ${!mine?`<div class="msg-name">${sanitize(m.author)}</div>`:''}
+            ${m.text?`<div class="msg-text">${sanitize(m.text)}</div>`:''}
+            ${filesHtml}
+            <div class="msg-time">${sanitize(m.time)}${m.edited?' · edited':''}</div>
+            ${mine?`<div class="msg-actions">
+              ${m.text?`<button class="msg-act-btn edit-btn" onclick="editDMMsg('${activeDMName}',${idx})">✏️</button>`:''}
+              <button class="msg-act-btn del-btn" onclick="deleteDMMsg('${activeDMName}',${idx})">🗑</button>
+            </div>`:''}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="msg-main-input">
+      <label class="chat-attach-btn" title="Attach photo or file" onclick="document.getElementById('dm-file-input').click()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+      </label>
+      <input type="text" id="dm-input-field" placeholder="Write a message…" style="flex:1" onkeydown="if(event.key==='Enter')sendDMMsg()"/>
+      <button class="btn-send" onclick="sendDMMsg()"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+    </div>
+    <div id="dm-attach-preview" style="display:none;padding:6px 14px;border-top:1px solid var(--border-soft)"></div>`;
+
+  setTimeout(() => {
+    const area = document.getElementById('dm-msgs-area');
+    if (area) area.scrollTop = area.scrollHeight;
+  }, 50);
+}
+
+function selectDMThread(name) {
+  activeDMName = name;
+  dmPendingFiles = [];
+  renderMessagesPage();
+}
+
+let dmPendingFiles = [];
+function handleDMFileSelect(e) {
+  const files = Array.from(e.target.files);
+  files.forEach(file => {
+    if (file.size > MAX_FILE_BYTES) { toast(`"${file.name}" is too large. Max 5MB per file.`); return; }
+    const reader = new FileReader();
+    reader.onload = ev => {
+      dmPendingFiles.push({name:sanitize(file.name), type:file.type, dataUrl:ev.target.result});
+      renderDMAttachPreview();
+    };
+    reader.readAsDataURL(file);
+  });
+  e.target.value = '';
+}
+function renderDMAttachPreview() {
+  const wrap = document.getElementById('dm-attach-preview'); if (!wrap) return;
+  if (!dmPendingFiles.length) { wrap.style.display='none'; wrap.innerHTML=''; return; }
+  wrap.style.display = 'block';
+  wrap.innerHTML = `<div class="chat-attach-preview-inner">${dmPendingFiles.map((f,i) =>
+    f.type.startsWith('image/')
+      ? `<div style="position:relative"><img src="${f.dataUrl}" style="width:56px;height:44px;object-fit:cover;border-radius:6px;border:1px solid var(--border)"/><button onclick="dmPendingFiles.splice(${i},1);renderDMAttachPreview()" style="position:absolute;top:2px;right:2px;width:14px;height:14px;border-radius:50%;background:rgba(60,20,40,.7);color:white;border:none;cursor:pointer;font-size:9px">✕</button></div>`
+      : `<div style="display:flex;align-items:center;gap:4px;background:var(--pink);border:1px solid var(--border);border-radius:6px;padding:4px 7px;font-size:11px;color:var(--text-muted);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">📄 ${f.name}<button onclick="dmPendingFiles.splice(${i},1);renderDMAttachPreview()" style="margin-left:3px;background:none;border:none;cursor:pointer;color:var(--text-faint)">✕</button></div>`
+  ).join('')}</div>`;
+}
+
+function sendDMMsg() {
+  const inp = document.getElementById('dm-input-field');
+  if (!inp) return;
+  const txt = inp.value.trim();
+  if (!txt && !dmPendingFiles.length) return;
+  const now = new Date();
+  const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
+  const isHost = role === 'host';
+  const myName = isHost ? 'You (Host)' : (currentUser.name || 'Luna K.');
+  const myColor = isHost ? '#a84f6a' : '#e88faa';
+  if (!dmThreads[activeDMName]) dmThreads[activeDMName] = [];
+  dmThreads[activeDMName].push({author:myName, color:myColor, text:txt, time, mine:true, files:[...dmPendingFiles]});
+  dmPendingFiles = [];
+
+  // Simulate a reply for demo
+  if (!isHost && activeDMName === 'Your Host') {
+    const replies = [
+      "Thanks for reaching out! I'll get back to you soon 🌸",
+      "Great question! Let me think about that and reply properly 💛",
+      "Got your message! You're doing amazing by the way 🎯",
+      "On it! Check back in a bit 🌿"
+    ];
+    setTimeout(() => {
+      dmThreads[activeDMName].push({author:'Your Host', color:'#a84f6a', mine:false, text:replies[Math.floor(Math.random()*replies.length)], time, files:[]});
+      renderMessagesPage();
+      scheduleBackendSave();
+    }, 1200);
+  }
+  inp.value = '';
+  renderMessagesPage();
+  updateDMBadge();
+  if (txt) maybeNotify('New message in Yellow Circle 💌', `${myName}: ${txt.slice(0,80)}`);
+  scheduleBackendSave();
+}
+
+function editDMMsg(name, idx) {
+  const msg = dmThreads[name]?.[idx];
+  if (!msg) return;
+  ycPrompt('Edit your message', msg.text || '', (newText) => {
+    if (newText) {
+      msg.text = newText;
+      msg.edited = true;
+      renderMessagesPage();
+      toast('Message updated ✏️');
+      scheduleBackendSave();
+    }
+  });
+}
+function deleteDMMsg(name, idx) {
+  if (!dmThreads[name]?.[idx]) return;
+  ycConfirm('Delete message?', 'This cannot be undone.', (confirmed) => {
+    if (confirmed) {
+      dmThreads[name].splice(idx, 1);
+      renderMessagesPage();
+      toast('Message deleted');
+      scheduleBackendSave();
+    }
+  });
+}
+function updateDMBadge() {
+  const badge = document.getElementById('dm-badge');
+  if (badge) { badge.style.display = 'inline'; badge.textContent = '!'; }
+}
+
+// Close old DM overlay (for member card quick message)
+function closeDMOverlay(e) {
+  if (e.target === document.getElementById('dm-overlay'))
+    document.getElementById('dm-overlay').classList.remove('open');
+}
+
+// ── INTRO MODAL ──
+function togglePtag(el) { el.classList.toggle('selected'); }
+
+function openIntroModal() {
+  document.getElementById('intro-overlay').classList.add('open');
+}
+
+function submitIntro() {
+  const location = document.getElementById('intro-location').value.trim();
+  const business  = document.getElementById('intro-business').value.trim();
+  const extra     = document.getElementById('intro-extra').value.trim();
+  const tags      = [...document.querySelectorAll('.ptag.selected')].map(t => t.textContent);
+  const err       = document.getElementById('intro-error');
+
+  if (!location || !business) { err.textContent = 'Please fill in your location and business description.'; return; }
+  err.textContent = '';
+
+  // Save to currentUser
+  currentUser.location    = location;
+  currentUser.business    = business;
+  currentUser.partnerTags = tags;
+  currentUser.extra       = extra;
+
+  // Update in communityMembers so admin can see
+  const existing = communityMembers.find(m => m.name === currentUser.name);
+  if (existing) {
+    existing.location    = location;
+    existing.business    = business;
+    existing.partnerTags = tags;
+  }
+
+  // Auto-post intro to community feed
+  const tagText = tags.length ? `\n\nLooking for partners who are: ${tags.join(', ')}` : '';
+  const extraText = extra ? `\n\n✨ ${extra}` : '';
+  POSTS.unshift({
+    author: currentUser.name, role: currentUser.profession,
+    color: currentUser.color || '#e88faa',
+    text: `👋 Hi everyone! I'm ${currentUser.firstName}, a ${currentUser.profession} based in ${location}.\n\n${business}${tagText}${extraText}`,
+    type: 'General', likes: 0, time: 'Just now', comments: []
+  });
+
+  document.getElementById('intro-overlay').classList.remove('open');
+  try { sessionStorage.setItem('yc_intro_done', '1'); } catch(e){}
+  scheduleBackendSave();
+  toast('Introduction posted! Welcome to the community 🌸');
+  renderFeed();
+}
+function copyInviteLink() {
+  const link = window.location.href.split('?')[0] + '?join=1';
+  navigator.clipboard.writeText(link).then(() => {
+    toast('Invite link copied! Share it with your members 🔗');
+  }).catch(() => {
+    prompt('Copy this link and share it with your members:', link);
+  });
+}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
+
+// ── INIT ──
+(async function start() {
+  await loadBackendState();
+
+  buildNav();
+  renderSidebarFooter();
+  renderFeed();
+  renderPods();
+  renderUpdates();
+  renderQA();
+  initDMs();
+  checkLandingOnLoad();
+
+  // Register notification outside-click handler once
+  document.addEventListener('click', _handleNotifOutsideClick);
+})();
+</script>
+</body>
+</html>

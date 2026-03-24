@@ -1,0 +1,183 @@
+﻿{
+    "PODS":  [
+                 {
+                     "id":  1,
+                     "name":  "The Bloom Pod",
+                     "icon":  "ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã¢â‚¬â„¢Ãƒâ€šÃ‚Â¸",
+                     "bg":  "#fde8ef",
+                     "meet":  "https://meet.google.com",
+                     "members":  [
+                                     {
+                                         "name":  "Luna K.",
+                                         "role":  "Graphic Designer",
+                                         "color":  "#e88faa"
+                                     },
+                                     {
+                                         "name":  "Maya R.",
+                                         "role":  "Content Writer",
+                                         "color":  "#c97896"
+                                     },
+                                     {
+                                         "name":  "Jade S.",
+                                         "role":  "Coach",
+                                         "color":  "#a85c7a"
+                                     }
+                                 ]
+                 },
+                 {
+                     "id":  2,
+                     "name":  "The Spark Pod",
+                     "icon":  "ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¨",
+                     "bg":  "#fef3d0",
+                     "meet":  "https://meet.google.com",
+                     "members":  [
+                                     {
+                                         "name":  "Priya T.",
+                                         "role":  "Social Media Mgr",
+                                         "color":  "#d4a0b5"
+                                     },
+                                     {
+                                         "name":  "Chloe B.",
+                                         "role":  "Brand Manager",
+                                         "color":  "#b87090"
+                                     }
+                                 ]
+                 },
+                 {
+                     "id":  3,
+                     "name":  "The Rise Pod",
+                     "icon":  "ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã¢â‚¬â„¢Ãƒâ€šÃ‚Â¿",
+                     "bg":  "#e8f5ee",
+                     "meet":  "https://meet.google.com",
+                     "members":  [
+                                     {
+                                         "name":  "Fiona L.",
+                                         "role":  "Copywriter",
+                                         "color":  "#e0a8bc"
+                                     }
+                                 ]
+                 }
+             ],
+    "POSTS":  [
+                  {
+                      "author":  "You (Host)",
+                      "role":  "Host",
+                      "color":  "#a84f6a",
+                      "text":  "Hello all!!",
+                      "type":  "General",
+                      "likes":  0,
+                      "time":  "Just now",
+                      "comments":  [
+
+                                   ],
+                      "mine":  true,
+                      "files":  [
+
+                                ]
+                  }
+              ],
+    "QA":  [
+               {
+                   "q":  "How do I get my first client if I have zero portfolio?",
+                   "asker":  "Iris T. ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· 3 days ago",
+                   "answer":  "Start with one small project ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â even free ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â just to get a result. Document it. That case study IS your portfolio."
+               },
+               {
+                   "q":  "How many times should I follow up with a prospect?",
+                   "asker":  "Mara P. ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· 1 week ago",
+                   "answer":  null
+               }
+           ],
+    "UPDATES_DATA":  [
+                         {
+                             "id":  100,
+                             "tag":  "New Video",
+                             "title":  "How to Price Your Services With Confidence",
+                             "desc":  "",
+                             "date":  "March 20, 2026",
+                             "emoji":  "ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã‚Â½Ãƒâ€šÃ‚Â¬",
+                             "bg":  "linear-gradient(135deg,#fce4ef,#f9d0e3)",
+                             "file":  null,
+                             "thumb":  null
+                         },
+                         {
+                             "id":  101,
+                             "tag":  "Resource",
+                             "title":  "Lead Generation Swipe File ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â 30 DM Templates",
+                             "desc":  "",
+                             "date":  "March 18, 2026",
+                             "emoji":  "ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¹",
+                             "bg":  "linear-gradient(135deg,#e8f5ee,#d0f0e0)",
+                             "file":  null,
+                             "thumb":  null
+                         },
+                         {
+                             "id":  102,
+                             "tag":  "Training",
+                             "title":  "Mastering Discovery Calls ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â Live Replay",
+                             "desc":  "",
+                             "date":  "March 15, 2026",
+                             "emoji":  "ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã‚Â½ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢",
+                             "bg":  "linear-gradient(135deg,#fff3e0,#ffe0b0)",
+                             "file":  null,
+                             "thumb":  null
+                         },
+                         {
+                             "id":  103,
+                             "tag":  "Workshop",
+                             "title":  "Building Your Signature Offer in 5 Days",
+                             "desc":  "",
+                             "date":  "March 10, 2026",
+                             "emoji":  "ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¨",
+                             "bg":  "linear-gradient(135deg,#ede8ff,#ddd0ff)",
+                             "file":  null,
+                             "thumb":  null
+                         },
+                         {
+                             "id":  104,
+                             "tag":  "New Video",
+                             "title":  "The Content Strategy That Got Me 10 Clients",
+                             "desc":  "",
+                             "date":  "March 5, 2026",
+                             "emoji":  "ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒâ€¹Ã¢â‚¬Â ",
+                             "bg":  "linear-gradient(135deg,#e8eeff,#d0d8ff)",
+                             "file":  null,
+                             "thumb":  null
+                         }
+                     ],
+    "communityMembers":  [
+                             {
+                                 "name":  "Luna K.",
+                                 "gmail":  "luna.kim@gmail.com",
+                                 "profession":  "Graphic Designer",
+                                 "joinedAt":  "20 Mar, 09:14"
+                             },
+                             {
+                                 "name":  "Maya R.",
+                                 "gmail":  "maya.rose@gmail.com",
+                                 "profession":  "Content Writer",
+                                 "joinedAt":  "19 Mar, 14:32"
+                             },
+                             {
+                                 "name":  "Priya T.",
+                                 "gmail":  "priya.t@gmail.com",
+                                 "profession":  "Social Media Manager",
+                                 "joinedAt":  "18 Mar, 11:05"
+                             }
+                         ],
+    "podChats":  {
+
+                 },
+    "dmThreads":  {
+                      "Your Host":  [
+                                        {
+                                            "author":  "Your Host",
+                                            "color":  "#a84f6a",
+                                            "mine":  false,
+                                            "text":  "Hey! Welcome to Yellow Circle ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã¢â‚¬â„¢Ãƒâ€šÃ‚Â¸ Feel free to message me anytime ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â I\u0027m always here to help.",
+                                            "time":  "Just now"
+                                        }
+                                    ]
+                  },
+    "nextId":  4
+}
